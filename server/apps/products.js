@@ -1,24 +1,25 @@
 import { Router } from "express";
-import { validateLoginCostumer } from "./validateLoginCostumer";
-import { getMenu } from "../controllers/costumer";
+import validateLoginCustomer from "./validateLoginCustomer.js";
+import { getMenu } from "../controllers/menu";
+import { customerLogin } from "../controllers/customers.js";
 
-const costumer = Router();
+const customer = Router();
 
-costumer.get("/", (req, res) => {
+customer.get("/", (req, res) => {
   res.json({ message: "Home page" });
 });
 
-costumer.get("/menu", getMenu); // ✅
+customer.get("/menu", getMenu); // ✅
 
-costumer.get("/login", [validateLoginCostumer], (req, res) => {});
+customer.get("/login", [validateLoginCustomer], customerLogin); // ✅
 
-costumer.post("/register", (req, res) => {});
+customer.post("/register", (req, res) => {});
 
-costumer.get("/cart", (req, res) => {});
+customer.get("/cart", (req, res) => {});
 
-costumer.post("/cart", (req, res) => {});
-costumer.get("/history", (req, res) => {});
-costumer.delete("/history", (req, res) => {});
+customer.post("/cart", (req, res) => {});
+customer.get("/history", (req, res) => {});
+customer.delete("/history", (req, res) => {});
 
-costumer.put("/currentorders/:id", (req, res) => {});
-costumer.get("/currentorders", (req, res) => {});
+customer.put("/currentorders/:id", (req, res) => {});
+customer.get("/currentorders", (req, res) => {});
