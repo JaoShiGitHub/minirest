@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { Router } from "express";
 import { pool } from "../utils/db.js";
 
@@ -13,7 +14,7 @@ authRouter.post("/login", async (req, res) => {
   const type = isEmail ? "Email" : "Username";
 
   const data = await pool.query(
-    `SELECT email, password FROM customers WHERE ${type.toLocaleLowerCase()} = $1`,
+    `SELECT * FROM customers WHERE ${type.toLocaleLowerCase()} = $1`,
     [identifier]
   );
 
@@ -28,6 +29,20 @@ authRouter.post("/login", async (req, res) => {
   if (!isValidPassword) {
     return res.status(400).json({ message: "Invalid Password" });
   }
+
+  const token = jwt.sign(
+    {
+      id: customer.id,
+      firstName: customer.firstname,
+      lastName: customer.lastname,
+    },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: 900000,
+    }
+  );
+
+  return res.status(200).json({ message: "Login Successfully", token });
 });
 
 export default authRouter;
