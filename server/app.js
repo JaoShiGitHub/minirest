@@ -2,10 +2,12 @@ import bodyParser from "body-parser";
 import express from "express";
 import authRouter from "./apps/auth.js";
 import { getMenu } from "./controllers/menu.js";
+import dotenv from "dotenv";
 
 const app = express();
-app.use(bodyParser.json());
+dotenv.config();
 
+app.use(bodyParser.json());
 app.use("/auth", authRouter);
 app.get("/menu", getMenu);
 
