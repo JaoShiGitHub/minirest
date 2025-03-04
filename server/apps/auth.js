@@ -2,19 +2,20 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Router } from "express";
 import { pool } from "../utils/db.js";
+import validateLoginCustomer from "./validateLoginCustomer.js";
 
 const authRouter = Router();
 
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/login", [validateLoginCustomer], async (req, res) => {
   const { identifier, password } = req.body;
   function isEmail(input) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
   }
 
-  const type = isEmail ? "Email" : "Username";
+  const type = isEmail(identifier) ? "Email" : "Username";
 
   const data = await pool.query(
-    `SELECT * FROM customers WHERE ${type.toLocaleLowerCase()} = $1`,
+    `SELECT * FROM customers WHERE ${type.toLowerCase()} = $1`,
     [identifier]
   );
 
@@ -27,7 +28,7 @@ authRouter.post("/login", async (req, res) => {
   const isValidPassword = await bcrypt.compare(password, customer.password);
 
   if (!isValidPassword) {
-    return res.status(400).json({ message: "Invalid Password" });
+    return res.status(400).json({ message: `Invalid Password` });
   }
 
   const token = jwt.sign(
@@ -38,11 +39,15 @@ authRouter.post("/login", async (req, res) => {
     },
     process.env.SECRET_KEY,
     {
-      expiresIn: 900000,
+      expiresIn: 900,
     }
   );
 
   return res.status(200).json({ message: "Login Successfully", token });
 });
+
+// authRouter.get("/login", (req, res) =>
+//   res.json({ message: "Login Successfully" })
+// ); // ✅ test
 
 export default authRouter;
