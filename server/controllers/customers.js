@@ -1,5 +1,8 @@
 const customerLogin = (req, res) => {
-  return res.json({ message: "Login Successful" })
+  return res.json({ message: "Login Successful" });
 };
 
-export { customerLogin };
+const customerRegister = (req, res) => {
+  return res.json({ message: "Hello register" });
+};
+export { customerLogin, customerRegister };
