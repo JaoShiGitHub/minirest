@@ -16,9 +16,6 @@ const validateLoginCustomer = async (req, res, next) => {
 };
 
 const validateRegisterCustomer = async (req, res, next) => {
-  const { username, password, firstName, lastName, tel, email, birthday } =
-    req.body;
-
   const requiredFields = {
     username: req.body.username,
     password: req.body.password,
