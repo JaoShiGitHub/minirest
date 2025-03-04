@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Router } from "express";
 import { pool } from "../utils/db.js";
-import validateLoginCustomer from "./validateLoginCustomer.js";
+import { validateLoginCustomer } from "./customerValidation.js";
 
 const authRouter = Router();
 
