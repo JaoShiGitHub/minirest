@@ -1,7 +1,6 @@
 import { Router } from "express";
-import validateLoginCustomer from "./validateLoginCustomer.js";
 import { getMenu } from "../controllers/menu";
-import { customerLogin } from "../controllers/customers.js";
+import { customerRegister } from "../controllers/customers.js";
 
 const customer = Router();
 
@@ -10,10 +9,8 @@ customer.get("/", (req, res) => {
 });
 
 customer.get("/menu", getMenu); // ✅
-
-customer.get("/login", [validateLoginCustomer], customerLogin); // ✅
-
-customer.post("/register", (req, res) => {});
+customer.post("/register", customerRegister);
+// customer.get("/login", [validateLoginCustomer], customerLogin);
 
 customer.get("/cart", (req, res) => {});
 
