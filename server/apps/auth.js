@@ -39,15 +39,11 @@ authRouter.post("/login", [validateLoginCustomer], async (req, res) => {
     },
     process.env.SECRET_KEY,
     {
-      expiresIn: 900,
+      expiresIn: 900000,
     }
   );
 
   return res.status(200).json({ message: "Login Successfully", token });
 });
-
-// authRouter.get("/login", (req, res) =>
-//   res.json({ message: "Login Successfully" })
-// ); // ✅ test
 
 export default authRouter;
