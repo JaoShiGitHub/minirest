@@ -31,4 +31,29 @@ const customerRegister = async (req, res) => {
   }
 };
 
-export { customerRegister };
+const customerOrder = async (req, res) => {
+  const { customer_id, description, dining_status, payment_status } = req.body;
+  const status = "Order Placed";
+  const order_date = new Date().toISOString();
+  const order_id = Math.random().toString(36).substring(2, 18);
+
+  try {
+    await pool.query(
+      `INSERT INTO customer_orders (order_id, customer_id, status, order_date, description, dining_status, payment_status) VALUES ($1, $2, $3, $4, $5, $6, $7 )`,
+      [
+        order_id,
+        customer_id,
+        status,
+        order_date,
+        description,
+        dining_status,
+        payment_status,
+      ]
+    );
+    return res.status(200).json({ message: "Order has been created" });
+  } catch (error) {
+    return res.json({ error: error });
+  }
+};
+
+export { customerRegister, customerOrder };
