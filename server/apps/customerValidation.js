@@ -26,9 +26,9 @@ const validateRegisterCustomer = async (req, res, next) => {
     birthday: req.body.birthday,
   };
 
-  if (!username) {
+  if (!requiredFields.username) {
     return res.status(400).json({ message: "Username is required!" });
-  } else if (username.length > 20) {
+  } else if (requiredFields.username.length > 20) {
     return res.status(400).json({
       message: "Username must be less than 20 characters.",
     });
