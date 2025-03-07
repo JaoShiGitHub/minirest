@@ -32,7 +32,8 @@ const customerRegister = async (req, res) => {
 };
 
 const customerOrder = async (req, res) => {
-  const { customer_id, description, dining_status, payment_status } = req.body;
+  const { customer_id, description, dining_status, payment_status, orders } =
+    req.body;
   const status = "Order Placed";
   const order_date = new Date().toISOString();
   const order_id = Math.random().toString(36).substring(2, 18);
@@ -50,6 +51,16 @@ const customerOrder = async (req, res) => {
         payment_status,
       ]
     );
+
+    const orderQueries = orders.map((order) => {
+      pool.query(
+        `INSERT INTO order_items (order_id, product_id ,product_name, product_price) VALUES ($1, $2, $3, $4)`,
+        [order_id, order.product_id, order.product_name, order.product_price]
+      );
+    });
+
+    await Promise.all(orderQueries);
+
     return res.status(200).json({ message: "Order has been created" });
   } catch (error) {
     return res.json({ error: error });
