@@ -19,4 +19,18 @@ const getMenu = async (req, res) => {
   }
 };
 
-export { getMenu };
+// Insert menu -> For admin
+const insertMenu = async (req, res) => {
+  const { name, price } = req.body;
+  try {
+    await pool.query(`INSERT INTO menu (name, price) VALUES ($1, $2)`, [
+      name,
+      price,
+    ]);
+    return res.status(200).json({ message: "Insert Successfully" });
+  } catch (error) {
+    return res.json({ error: error });
+  }
+};
+
+export { getMenu, insertMenu };
