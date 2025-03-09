@@ -1,6 +1,7 @@
 import { isEmail } from "../utils/common.js";
 import { pool } from "../utils/db.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const adminRegister = async (req, res) => {
   const { username, firstname, lastname, tel, email, admin_role } = req.body;
