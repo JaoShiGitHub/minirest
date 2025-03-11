@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
+  const navigate = useNavigate(); // Call useNavigate here
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [state, setState] = useState({
+    user: null,
+  });
 
   const login = async (data) => {
     try {
@@ -14,9 +19,15 @@ function AuthProvider(props) {
         "http://localhost:4000/auth/login",
         data
       );
+
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      const userDataFromToken = jwtDecode(token);
+
+      setState({ user: userDataFromToken });
       setIsAuthenticated(true);
       console.log("Login successful: ", response.data);
-      useNavigate("/home");
+      navigate("/home"); // Use navigate here
     } catch (error) {
       console.log("Login failed: ", error);
     }
