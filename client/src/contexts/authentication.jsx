@@ -34,7 +34,7 @@ function AuthProvider(props) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login }}>
+    <AuthContext.Provider value={{ state, isAuthenticated, login }}>
       {props.children}
     </AuthContext.Provider>
   );
