@@ -1,43 +1,51 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../contexts/Authentication";
 
-function MenuPage() {
-  const navigate = useNavigate();
-  const [data, setData] = useState([]);
+function LoginPage() {
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    getMenu();
-  }, []);
+  const { login } = useAuth(); 
 
-  const getMenu = async () => {
-    try {
-      const MENU = await axios.get("http://localhost:4000/menu");
-      setData(MENU?.data?.data?.rows);
-      console.log(MENU?.data?.data?.rows);
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login({
+      identifier,
+      password,
+    });
   };
 
+  console.log(identifier);
+  console.log(password);
+
   return (
-    <div>
-      {data.length > 0 ? (
-        <div className="menu-container">
-          {data.map((menu) => {
-            return (
-              <div key={menu.menu_id}>
-                <p>{menu.name}</p>
-                <span>{menu.price}</span>
-              </div>
-            );
-          })}
-        </div>
-      ) : null}
+    <form className="customer-login-form" onSubmit={handleSubmit}>
+      <h1>Client Login</h1>
+
+      <label htmlFor="identifier">Username | Email</label>
+      <input
+        id="identifier"
+        name="identifier"
+        type="text"
+        placeholder="Type username / email"
+        value={identifier}
+        onChange={(e) => setIdentifier(e.target.value)}
+      />
       <br />
-      <button onClick={() => navigate("/home")}>BACK TO HOME</button>
-    </div>
+      <label htmlFor="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password" 
+        placeholder="Type your password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <div className="form-actions">
+        <button type="submit">Login</button>
+      </div>
+    </form>
   );
 }
 
-export default MenuPage;
+export default LoginPage;
