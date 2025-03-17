@@ -6,7 +6,7 @@ function MenuPage() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [orderStatus, setOrderStatus] = useState(false);
-  const [isChecked, setIsCheck] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState({});
 
   useEffect(() => {
     getMenu();
@@ -22,8 +22,17 @@ function MenuPage() {
     }
   };
 
-  const handleOnSubmit = (e) => e.preventDefault();
-  const handleCheckboxChange = (e) => setIsCheck(e.target.checked);
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    console.log(selectedMenu);
+  };
+
+  const handleCheckboxChange = (menu) => {
+    setSelectedMenu((prevMenu) => ({
+      ...prevMenu,
+      [menu.menu_id]: !prevMenu[menu.menu_id],
+    }));
+  };
 
   return (
     <div>
@@ -47,8 +56,8 @@ function MenuPage() {
                   <input
                     id={menu.menu_id}
                     type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
+                    checked={selectedMenu[menu.menu_id] || false}
+                    onChange={() => handleCheckboxChange(menu)}
                     name={menu.name}
                   />
                   <p>{menu.name}</p>
@@ -63,7 +72,7 @@ function MenuPage() {
       <br />
       <button onClick={() => navigate("/home")}>BACK TO HOME</button>
       <br />
-      <button onClick={() => setOrderStatus(true)}>ORDER</button>
+      <button onClick={() => setOrderStatus(!orderStatus)}>ORDER</button>
     </div>
   );
 }
