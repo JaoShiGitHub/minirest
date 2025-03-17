@@ -22,17 +22,18 @@ function MenuPage() {
     }
   };
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    localStorage.setItem("orders", selectedMenu);
-    setSelectedMenu({});
-  };
-
   const handleCheckboxChange = (menu) => {
     setSelectedMenu((prevMenu) => ({
       ...prevMenu,
       [menu.menu_id]: menu,
     }));
+  };
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    localStorage.setItem("orders", selectedMenu);
+    setSelectedMenu({});
+    navigate("/order-now");
   };
 
   return (
@@ -66,7 +67,7 @@ function MenuPage() {
                 </label>
               );
             })}
-            <button type="submit">SUBMIT</button>
+            <button type="submit">ORDER NOW</button>
           </form>
         )
       ) : null}
