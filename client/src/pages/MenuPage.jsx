@@ -24,13 +24,14 @@ function MenuPage() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(selectedMenu);
+    localStorage.setItem("orders", selectedMenu);
+    setSelectedMenu({});
   };
 
   const handleCheckboxChange = (menu) => {
     setSelectedMenu((prevMenu) => ({
       ...prevMenu,
-      [menu.menu_id]: !prevMenu[menu.menu_id],
+      [menu.menu_id]: menu,
     }));
   };
 
