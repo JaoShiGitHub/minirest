@@ -29,6 +29,7 @@ function PlaceOrderPage() {
         }
       );
       console.log("Success: ", response);
+      navigate("/order-received");
     } catch (error) {
       console.log("Error: ", error);
     }
