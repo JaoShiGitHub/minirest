@@ -1,21 +1,37 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function PlaceOrderPage() {
+  const navigate = useNavigate();
   const menuItems = [
-    { menu_id: 4, name: "Pink Milk", price: "1500.00" },
-    { menu_id: 5, name: "Thai Tea", price: "150.00" },
-    { menu_id: 6, name: "Green Tea", price: "3500.00" },
+    { product_id: 4, product_name: "Pink Milk", product_price: "1500.00" },
+    { product_id: 5, product_name: "Thai Tea", product_price: "150.00" },
+    { product_id: 6, product_name: "Green Tea", product_price: "3500.00" },
   ];
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    const diningOption = formData.get("dining-options");
-    const customerRequest = formData.get("customer-request");
+    const diningStatus = formData.get("dining-options");
+    const description = formData.get("customer-request");
 
-    console.log("Order success", diningOption, customerRequest);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/customer/order",
+        {
+          customer_id: 10,
+          description: description,
+          dining_status: diningStatus,
+          payment_status: "",
+          orders: menuItems,
+        }
+      );
+      console.log("Success: ", response);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   };
 
   return (
@@ -24,9 +40,9 @@ function PlaceOrderPage() {
       <div>
         {menuItems.map((item) => {
           return (
-            <div>
-              <p>{item.name}</p>
-              <span>{item.price}</span>
+            <div key={item.product_id}>
+              <p>{item.product_name}</p>
+              <span>{item.product_price}</span>
             </div>
           );
         })}
@@ -49,6 +65,7 @@ function PlaceOrderPage() {
         <br />
         <button type="submit">Place Order</button>
       </form>
+      <button onClick={() => navigate("/home")}>HOME</button>
     </div>
   );
 }
