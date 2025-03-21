@@ -17,13 +17,16 @@ function HistoryPage() {
       alert(err.response.data.msg);
     }
   };
+  const style = {
+    cursor: "pointer",
+  };
 
   return (
     <div>
       <h1>HistoryPage</h1>
       {Object.entries(orders).map(([key, order]) => {
         return (
-          <div key={order.id}>
+          <button style={style} key={order.id}>
             <h1>Order: {key}</h1>
             <div>
               {order.map((item) => {
@@ -41,7 +44,7 @@ function HistoryPage() {
                 return orderAcc + parseFloat(item.product_price);
               }, 0)}
             </span>
-          </div>
+          </button>
         );
       })}
     </div>
