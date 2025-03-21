@@ -18,9 +18,15 @@ const orderHistory = async (req, res) => {
       arrOrderId
     );
 
+    const items = orderItems.rows.reduce((acc, item) => {
+      acc[item.order_id] = acc[item.order_id] || [];
+      acc[item.order_id].push(item);
+      return acc;
+    }, {});
+
     return res
       .status(200)
-      .json({ message: "Order history fetched successfully", orderItems });
+      .json({ message: "Order history fetched successfully", items });
   } catch (error) {
     return res.json({ error: error });
   }
