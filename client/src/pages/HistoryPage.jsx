@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 function HistoryPage() {
   const [orders, setOrders] = useState([]);
-  const [order, setOrder] = useState([]);
   useEffect(() => {
     getOrder();
   }, []);
@@ -14,9 +13,6 @@ function HistoryPage() {
         "http://localhost:4000/order/history?customer_id=10"
       );
       setOrders(orders.data.items);
-      setOrder(orders.data.items);
-
-      console.log(orders.data);
     } catch (err) {
       alert(err.response.data.msg);
     }
@@ -32,8 +28,8 @@ function HistoryPage() {
             <div>
               {order.map((item) => {
                 return (
-                  <div>
-                    <div key={item.id}>{item.product_name}</div>
+                  <div key={item.id}>
+                    <div>{item.product_name}</div>
                     <span>{item.product_price}</span>
                   </div>
                 );
@@ -41,9 +37,9 @@ function HistoryPage() {
             </div>
             <span>
               Total:
-              {order.product_price.reduce((acc, price) => {
-                return acc + price;
-              })}
+              {order.reduce((orderAcc, item) => {
+                return orderAcc + parseFloat(item.product_price);
+              }, 0)}
             </span>
           </div>
         );
