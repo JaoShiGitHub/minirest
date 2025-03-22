@@ -1,8 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HistoryPage() {
   const [orders, setOrders] = useState([]);
+  const navigator = useNavigate();
+
+  const style = {
+    cursor: "pointer",
+  };
+
   useEffect(() => {
     getOrder();
   }, []);
@@ -17,8 +24,9 @@ function HistoryPage() {
       alert(err.response.data.msg);
     }
   };
-  const style = {
-    cursor: "pointer",
+
+  const handleOrderClick = (order) => {
+    navigator("/view-order", { state: { order } });
   };
 
   return (
@@ -26,7 +34,11 @@ function HistoryPage() {
       <h1>HistoryPage</h1>
       {Object.entries(orders).map(([key, order]) => {
         return (
-          <button style={style} key={order.id}>
+          <button
+            style={style}
+            key={order.id}
+            onClick={() => handleOrderClick(order)}
+          >
             <h1>Order: {key}</h1>
             <div>
               {order.map((item) => {
