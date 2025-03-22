@@ -25,8 +25,10 @@ function HistoryPage() {
     }
   };
 
-  const handleOrderClick = (order) => {
-    navigator("/view-order", { state: { order } });
+  const handleOrderClick = (order, key) => {
+    console.log(key);
+
+    navigator("/view-order", { state: { order, key } });
   };
 
   return (
@@ -37,7 +39,7 @@ function HistoryPage() {
           <button
             style={style}
             key={order.id}
-            onClick={() => handleOrderClick(order)}
+            onClick={() => handleOrderClick(order, key)}
           >
             <h1>Order: {key}</h1>
             <div>
