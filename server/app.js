@@ -20,7 +20,7 @@ app.use("/menu", menu);
 app.use("/customer", customer);
 app.use("/admin", admin);
 app.use("/order", order);
-app.put("edit-customer-info", editCustomerInfo);
+app.put("/edit-customer-info", editCustomerInfo);
 
 app.listen(4000, () => {
   console.log("Server is listening at port 4000");
