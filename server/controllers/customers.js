@@ -67,4 +67,8 @@ const customerOrder = async (req, res) => {
   }
 };
 
-export { customerRegister, customerOrder };
+const editCustomerInfo = async (req, res) => {
+  const {} = req.body;
+};
+
+export { customerRegister, customerOrder, editCustomerInfo };
