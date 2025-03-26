@@ -1,11 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function HistoryPage() {
   const [orders, setOrders] = useState([]);
-  const navigator = useNavigate();
-  const [deletedItem, setDeletedItem] = useState({ delete: "" });
+  const [deletedOrders, setDeletedOrders] = useState(
+    JSON.parse(localStorage.getItem("deletedOrders")) || []
+  );
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const style = {
     cursor: "pointer",
@@ -15,41 +19,52 @@ function HistoryPage() {
     getOrder();
   }, []);
 
+  useEffect(() => {
+    if (location.state?.deletedOrderKey) {
+      const updatedDeletedOrders = [
+        ...deletedOrders,
+        location.state.deletedOrderKey,
+      ];
+      setDeletedOrders(updatedDeletedOrders);
+      localStorage.setItem(
+        "deletedOrders",
+        JSON.stringify(updatedDeletedOrders)
+      );
+    }
+  }, [location.state]);
+
   const getOrder = async () => {
     try {
       const orders = await axios.get(
         "http://localhost:4000/order/history?customer_id=10"
       );
-
       setOrders(orders.data.items);
     } catch (err) {
       alert(err.response.data.msg);
     }
   };
 
-  const handleOrderClick = (order, key) => {
-    navigator("/view-order", {
-      state: { order: order, key: key, setDeletedItem: setDeletedItem },
+  console.log("deletedOrder: ", deletedOrders);
+
+  const handleOrderClick = (key, order) => {
+    navigate("/view-order", {
+      state: { order, key },
     });
   };
-
-  const filterOrders = Object.entries(orders).filter((order) =>
-    deletedItem.delete ? order.order_id !== deletedItem.delete : orders
-  );
 
   return (
     <div>
       <h1>HistoryPage</h1>
-      {filterOrders.map((order) => {
+      {Object.entries(orders).map(([key, order]) => {
         return (
           <button
             style={style}
-            key={order[0]}
-            onClick={() => handleOrderClick(order[1])}
+            key={key}
+            onClick={() => handleOrderClick(key, order)}
           >
-            <h1>Order: {order[0]}</h1>
+            <h1>Order: {key}</h1>
             <div>
-              {order[1].map((item) => {
+              {order.map((item) => {
                 return (
                   <div key={item.id}>
                     <div>{item.product_name}</div>
@@ -60,7 +75,7 @@ function HistoryPage() {
             </div>
             <span>
               Total:
-              {order[1].reduce((orderAcc, item) => {
+              {order.reduce((orderAcc, item) => {
                 return orderAcc + parseFloat(item.product_price);
               }, 0)}
             </span>
