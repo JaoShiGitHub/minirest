@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 function ProfilePage() {
@@ -7,9 +8,34 @@ function ProfilePage() {
     setIsClicked(!isClicked);
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log("submit");
+    const formData = new FormData(e.target);
+    const username = formData.get("username");
+    const firstname = formData.get("first-name");
+    const lastname = formData.get("last-name");
+    const tel = formData.get("tel");
+    const email = formData.get("email");
+    const allergy = formData.get("allergy");
+    const birthday = formData.get("birthday");
+
+    try {
+      const response = await axios.put(
+        "http://localhost:4000/edit-customer-info/10",
+        {
+          username: username,
+          firstname: firstname,
+          lastname: lastname,
+          tel: tel,
+          email: email,
+          allergy: allergy,
+          birthday: birthday,
+        }
+      );
+      console.log("Update successfully ", response);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   };
 
   return (
@@ -37,6 +63,8 @@ function ProfilePage() {
           <br />
           <label htmlFor="birthday">Birthday </label>
           <input type="date" name="birthday" id="birthday" />
+          <br />
+          <br />
           <button type="submit">SUBMIT</button>
         </form>
       ) : (
