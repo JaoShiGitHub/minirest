@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function HistoryPage() {
   const [orders, setOrders] = useState([]);
@@ -9,7 +9,6 @@ function HistoryPage() {
   );
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const style = {
     cursor: "pointer",
@@ -20,18 +19,10 @@ function HistoryPage() {
   }, []);
 
   useEffect(() => {
-    if (location.state?.deletedOrderKey) {
-      const updatedDeletedOrders = [
-        ...deletedOrders,
-        location.state.deletedOrderKey,
-      ];
-      setDeletedOrders(updatedDeletedOrders);
-      localStorage.setItem(
-        "deletedOrders",
-        JSON.stringify(updatedDeletedOrders)
-      );
-    }
-  }, [location.state]);
+    const storedDeletedOrders =
+      JSON.parse(localStorage.getItem("deletedOrders")) || [];
+    setDeletedOrders(storedDeletedOrders);
+  }, []);
 
   const getOrder = async () => {
     try {
@@ -55,33 +46,35 @@ function HistoryPage() {
   return (
     <div>
       <h1>HistoryPage</h1>
-      {Object.entries(orders).map(([key, order]) => {
-        return (
-          <button
-            style={style}
-            key={key}
-            onClick={() => handleOrderClick(key, order)}
-          >
-            <h1>Order: {key}</h1>
-            <div>
-              {order.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <div>{item.product_name}</div>
-                    <span>{item.product_price}</span>
-                  </div>
-                );
-              })}
-            </div>
-            <span>
-              Total:
-              {order.reduce((orderAcc, item) => {
-                return orderAcc + parseFloat(item.product_price);
-              }, 0)}
-            </span>
-          </button>
-        );
-      })}
+      {Object.entries(orders)
+        .filter(([key]) => !deletedOrders.includes(key))
+        .map(([key, order]) => {
+          return (
+            <button
+              style={style}
+              key={key}
+              onClick={() => handleOrderClick(key, order)}
+            >
+              <h1>Order: {key}</h1>
+              <div>
+                {order.map((item) => {
+                  return (
+                    <div key={item.id}>
+                      <div>{item.product_name}</div>
+                      <span>{item.product_price}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <span>
+                Total:
+                {order.reduce((orderAcc, item) => {
+                  return orderAcc + parseFloat(item.product_price);
+                }, 0)}
+              </span>
+            </button>
+          );
+        })}
     </div>
   );
 }
