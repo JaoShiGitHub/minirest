@@ -3,8 +3,11 @@ import HomePage from "./HomePage";
 import MenuPage from "./MenuPage";
 import NotFoundPage from "./NotFoundPage";
 import PlaceOrderPage from "../components/PlaceOrderPage";
-import HistoryPage from "./HistoryPage";
+
 import OrderReceivedPage from "./OrderReceivedPage";
+import ViewOrder from "./ViewOrder";
+import { HistoryPage } from "./HistoryPage";
+import ProfilePage from "./ProfilePage";
 
 function AuthenticatedApp() {
   return (
@@ -15,6 +18,9 @@ function AuthenticatedApp() {
         <Route path="/order-now" element={<PlaceOrderPage />} />
         <Route path="/order-history" element={<HistoryPage />} />
         <Route path="/order-received" element={<OrderReceivedPage />} />
+        <Route path="/view-order" element={<ViewOrder />} />
+        <Route path="/profile" element={<ProfilePage />} />
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
