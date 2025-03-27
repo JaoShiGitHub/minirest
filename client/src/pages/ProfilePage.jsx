@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ProfilePage() {
   const [isClicked, setIsClicked] = useState(false);
+  const navigate = useNavigate();
 
   const handleOnClickEditBtn = () => {
     setIsClicked(!isClicked);
@@ -11,6 +13,7 @@ function ProfilePage() {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+
     const username = formData.get("username");
     const firstname = formData.get("first-name");
     const lastname = formData.get("last-name");
@@ -21,7 +24,7 @@ function ProfilePage() {
 
     try {
       const response = await axios.put(
-        "http://localhost:4000/edit-customer-info/10",
+        "http://localhost:4000/edit-customer-info?customer_id=10",
         {
           username: username,
           firstname: firstname,
@@ -33,6 +36,7 @@ function ProfilePage() {
         }
       );
       console.log("Update successfully ", response);
+      navigate("/profile");
     } catch (error) {
       console.log("Error: ", error);
     }
