@@ -68,7 +68,27 @@ const customerOrder = async (req, res) => {
 };
 
 const editCustomerInfo = async (req, res) => {
-  const {} = req.body;
+  const { username, firstname, lastname, tel, email, allergy, birthday } =
+    req.body;
+  const { customer_id } = req.query;
+  try {
+    await pool.query(
+      `UPDATE customers SET username = $1, firstname = $2, lastname = $3, tel= $4, email = $5, allergy = $6, birthday = $7 WHERE id = $8`,
+      [
+        username,
+        firstname,
+        lastname,
+        tel,
+        email,
+        allergy,
+        birthday,
+        customer_id,
+      ]
+    );
+    return res.json({ message: "Customer info has been updated" });
+  } catch (error) {
+    return res.json({ error: error });
+  }
 };
 
 export { customerRegister, customerOrder, editCustomerInfo };
