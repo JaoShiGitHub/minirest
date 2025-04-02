@@ -6,7 +6,7 @@ function MenuPage() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [orderStatus, setOrderStatus] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState({});
+  const [selectedMenu, setSelectedMenu] = useState([]);
 
   useEffect(() => {
     getMenu();
@@ -32,6 +32,8 @@ function MenuPage() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("orders", selectedMenu);
+    console.log(selectedMenu);
+
     setSelectedMenu({});
     navigate("/order-now");
   };
@@ -49,6 +51,8 @@ function MenuPage() {
                 </div>
               );
             })}
+            <br />
+            <button onClick={() => setOrderStatus(!orderStatus)}>ORDER</button>
           </div>
         ) : (
           <form onSubmit={handleOnSubmit}>
@@ -67,14 +71,14 @@ function MenuPage() {
                 </label>
               );
             })}
+            <br />
+            <br />
             <button type="submit">ORDER NOW</button>
           </form>
         )
       ) : null}
-      <br />
+
       <button onClick={() => navigate("/home")}>BACK TO HOME</button>
-      <br />
-      <button onClick={() => setOrderStatus(!orderStatus)}>ORDER</button>
     </div>
   );
 }
