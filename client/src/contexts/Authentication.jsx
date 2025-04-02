@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
-  const navigate = useNavigate(); // Call useNavigate here
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [state, setState] = useState({
     user: null,
@@ -27,7 +27,7 @@ function AuthProvider(props) {
       setState({ user: userDataFromToken });
       setIsAuthenticated(true);
       console.log("Login successful: ", response.data);
-      navigate("/home"); // Use navigate here
+      navigate("/home");
     } catch (error) {
       console.log("Login failed: ", error);
     }
