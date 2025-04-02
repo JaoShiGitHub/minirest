@@ -35,8 +35,6 @@ function HistoryPage() {
     }
   };
 
-  console.log("deletedOrder: ", deletedOrders);
-
   const handleOrderClick = (key, order) => {
     navigate("/view-order", {
       state: { order, key },
