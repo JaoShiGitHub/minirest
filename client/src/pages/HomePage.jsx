@@ -12,7 +12,12 @@ function HomePage() {
           day.
         </p>
       </header>
-      <nav className="flex gap-16 font-playfairDisplay absolute bottom-0 mb-48"></nav>
+      <nav className="flex gap-16 font-playfairDisplay absolute bottom-0 mb-48">
+        <ButtonHomePage page="Home" />
+        <ButtonHomePage page="Profile" />
+        <ButtonHomePage page="Menu" />
+        <ButtonHomePage page="History" />
+      </nav>
     </section>
   );
 }
