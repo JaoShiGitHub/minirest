@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./HomePage";
 import MenuPage from "./MenuPage";
 import NotFoundPage from "./NotFoundPage";
-import PlaceOrderPage from "../components/PlaceOrderPage";
+import PlaceOrderPage from "./PlaceOrderPage";
 
 import OrderReceivedPage from "./OrderReceivedPage";
 import ViewOrder from "./ViewOrder";
