@@ -4,7 +4,11 @@ import UnAuthenticatedApp from "./pages/UnAuthenticatedApp";
 
 function App() {
   const auth = useAuth();
-  return auth.isAuthenticated ? <AuthenticatedApp /> : <UnAuthenticatedApp />;
+  return (
+    <div className="bg-background">
+      {auth.isAuthenticated ? <AuthenticatedApp /> : <UnAuthenticatedApp />}
+    </div>
+  );
 }
 
 export default App;
