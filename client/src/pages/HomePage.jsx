@@ -1,12 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import ButtonHomePage from "../components/ButtonHomePage";
 
 function HomePage() {
-  const navigate = useNavigate();
-
-  const handleButtons = (page) => {
-    navigate(`/${page}`);
-  };
-
   return (
     <section className="flex flex-col items-center h-screen">
       <header className="flex flex-col items-center">
@@ -18,12 +12,7 @@ function HomePage() {
           day.
         </p>
       </header>
-      <nav className="flex gap-16 font-playfairDisplay absolute bottom-0 mb-48">
-        <button onClick={() => handleButtons("home")}>Home</button>
-        <button onClick={() => handleButtons("profile")}>Profile</button>
-        <button onClick={() => handleButtons("menu")}>Menu</button>
-        <button onClick={() => handleButtons("order-history")}>History</button>
-      </nav>
+      <nav className="flex gap-16 font-playfairDisplay absolute bottom-0 mb-48"></nav>
     </section>
   );
 }
