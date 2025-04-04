@@ -19,8 +19,6 @@ const orderHistory = async (req, res) => {
       .map((_, index) => `$${index + 1}`)
       .join(", ");
 
-    console.log(placeholders);
-
     const orderItems = await pool.query(
       `SELECT * FROM order_items WHERE order_id IN (${placeholders})`,
       arrOrderId
@@ -34,16 +32,28 @@ const orderHistory = async (req, res) => {
       return acc;
     }, {});
 
-    const ordersAndStatus = Object.entries(items).map(([key, value]) => {
-      const orderId = key;
-      const items = value;
+    const orderDetails = idAndStatus.map((order) => {
+      let newDetails = {};
 
-      return { orderId, items };
+      Object.entries(items).map(([key, value]) => {
+        if (key === order.order_id) {
+          newDetails = {
+            ...order,
+            items: value,
+          };
+        }
+      });
+
+      return newDetails;
     });
+
+    const filteredOrdered = orderDetails.filter(
+      (order) => Object.keys(order).length > 0
+    );
 
     return res
       .status(200)
-      .json({ message: "Order history fetched successfully", items });
+      .json({ message: "Order history fetched successfully", filteredOrdered });
   } catch (error) {
     return res.json({ error: error });
   }
