@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 function ProfilePage() {
   const [isClicked, setIsClicked] = useState(false);
@@ -44,7 +45,7 @@ function ProfilePage() {
 
   return (
     <section>
-      <h1>Profile</h1>
+      <NavBar />
       {isClicked ? (
         <form onSubmit={handleOnSubmit}>
           <label htmlFor="username">Username </label>
