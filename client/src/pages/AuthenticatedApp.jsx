@@ -16,7 +16,7 @@ function AuthenticatedApp() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/order-now" element={<PlaceOrderPage />} />
-        <Route path="/order-history" element={<HistoryPage />} />
+        <Route path="/history" element={<HistoryPage />} />
         <Route path="/order-received" element={<OrderReceivedPage />} />
         <Route path="/view-order" element={<ViewOrder />} />
         <Route path="/profile" element={<ProfilePage />} />
