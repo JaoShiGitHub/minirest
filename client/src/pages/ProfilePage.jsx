@@ -7,7 +7,38 @@ function ProfilePage() {
   const [isClicked, setIsClicked] = useState(false);
   const [profile, setProfile] = useState({});
   const navigate = useNavigate();
-  const [birthday, setBirthday] = useState("");
+  // image states
+  const [imageFile, setImageFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [imageName, setImageName] = useState("");
+  // input states
+  const [formData, setFormData] = useState({
+    username: "",
+    firstname: "",
+    lastname: "",
+    tel: "",
+    email: "",
+    allergy: "",
+    birthday: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+      setImageName(file.name);
+    }
+  };
+
   const handleOnClickEditBtn = () => {
     setIsClicked(!isClicked);
   };
@@ -19,7 +50,6 @@ function ProfilePage() {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-
     const username = formData.get("username");
     const firstname = formData.get("first-name");
     const lastname = formData.get("last-name");
@@ -42,6 +72,7 @@ function ProfilePage() {
         }
       );
       console.log("Update successfully ", response);
+      console.log("Submitting image:", imageName, imageFile);
       navigate("/profile");
     } catch (error) {
       console.log("Error: ", error);
@@ -74,29 +105,81 @@ function ProfilePage() {
       <section className="flex flex-col w-full items-center max-w-[1180px] gap-6">
         {isClicked ? (
           <ProfileCard>
-            <form onSubmit={handleOnSubmit}>
-              <label htmlFor="username">Username </label>
-              <input type="text" name="username" id="username" />
-              <br />
-              <label htmlFor="first-name">First Name </label>
-              <input type="text" name="first-name" id="first-name" />
-              <br />
-              <label htmlFor="last-name">Last Name </label>
-              <input type="text" name="last-name" id="last-name" />
-              <br />
-              <label htmlFor="tel">Tel </label>
-              <input type="text" name="tel" id="tel" />
-              <br />
-              <label htmlFor="email">Email </label>
-              <input type="email" name="email" id="email" />
-              <br />
-              <label htmlFor="allergy">Allergy </label>
-              <input type="text" name="allergy" id="allergy" />
-              <br />
-              <label htmlFor="birthday">Birthday </label>
-              <input type="date" name="birthday" id="birthday" />
-              <br />
-              <br />
+            <form onSubmit={handleOnSubmit} className="grid grid-cols-2">
+              <label
+                className="hover:cursor-pointer w-[300px] h-[300px] bg-amber-800 rounded-[35px]"
+                htmlFor="profile-image"
+              >
+                Choose Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                id="profile-image"
+                hidden
+              />
+              <section className="grid grid-cols-2 gap-y-4">
+                <div className="flex flex-col gap-y-4">
+                  <label htmlFor="username">Username </label>
+                  <label htmlFor="first-name">First Name </label>
+                  <label htmlFor="last-name">Last Name </label>
+                  <label htmlFor="birthday">Birthday </label>
+                  <label htmlFor="tel">Tel </label>
+                  <label htmlFor="email">Email </label>
+                  <label htmlFor="allergy">Allergy </label>
+                </div>
+                <div className="flex flex-col gap-y-4">
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    className="bg-gray-100 rounded-md px-3 py-1"
+                  />
+                  <input
+                    type="text"
+                    name="first-name"
+                    id="first-name"
+                    value={formData.firstname}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="text"
+                    name="last-name"
+                    id="last-name"
+                    value={formData.lastname}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="date"
+                    name="birthday"
+                    id="birthday"
+                    value={formData.birthday}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="text"
+                    name="tel"
+                    id="tel"
+                    value={formData.tel}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="text"
+                    name="allergy"
+                    id="allergy"
+                    value={formData.allergy}
+                    onChange={handleChange}
+                  />
+                </div>
+              </section>
             </form>
           </ProfileCard>
         ) : (
