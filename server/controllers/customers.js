@@ -91,4 +91,19 @@ const editCustomerInfo = async (req, res) => {
   }
 };
 
-export { customerRegister, customerOrder, editCustomerInfo };
+const customerInfo = async (req, res) => {
+  const { customer_id } = req.query;
+  try {
+    const info = await pool.query("SELECT * FROM customers WHERE id = $1", [
+      customer_id,
+    ]);
+    return res.status(200).json({
+      message: "Customer info fetched successfully",
+      data: info.rows[0],
+    });
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export { customerRegister, customerOrder, editCustomerInfo, customerInfo };
