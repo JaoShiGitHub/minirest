@@ -7,7 +7,7 @@ function ProfilePage() {
   const [isClicked, setIsClicked] = useState(false);
   const [profile, setProfile] = useState({});
   const navigate = useNavigate();
-
+  const [birthday, setBirthday] = useState("");
   const handleOnClickEditBtn = () => {
     setIsClicked(!isClicked);
   };
@@ -62,7 +62,7 @@ function ProfilePage() {
 
   const ProfileCard = (props) => {
     return (
-      <main className="bg-[#FDFDFA] w-full rounded-2xl shadow-lg px-32 py-16 mt-14">
+      <main className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-16 mt-14">
         {props.children}
       </main>
     );
@@ -101,15 +101,15 @@ function ProfilePage() {
           </ProfileCard>
         ) : (
           <ProfileCard>
-            <div className="flex justify-evenly gap-x-40">
+            <div className="grid grid-cols-2 gap-x-40">
               <section className="flex flex-col items-center gap-y-4">
                 <div className="w-[300px] h-[300px] bg-amber-800 rounded-[35px]">
                   IMAGE
                 </div>
                 <b>{profile?.username}</b>
               </section>
-              <section className="flex flex-col gap-y-3">
-                <div>
+              <section className="grid grid-cols-2">
+                <div className="flex flex-col gap-y-4">
                   <b>First Name</b>
                   <b>Last Name</b>
                   <b>Birthday</b>
@@ -117,10 +117,14 @@ function ProfilePage() {
                   <b>Email</b>
                   <b>Allergy</b>
                 </div>
-                <div>
+                <div className="flex flex-col gap-y-4">
                   <p>{profile?.firstname}</p>
                   <p>{profile?.lastname}</p>
-                  <p>{profile?.birthday}</p>
+                  <p>
+                    {profile?.birthday
+                      ? new Date(profile.birthday).toLocaleDateString()
+                      : ""}
+                  </p>
                   <p>{profile?.tel}</p>
                   <p>{profile?.email}</p>
                   <p>{profile?.allergy}</p>
