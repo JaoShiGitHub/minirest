@@ -1,15 +1,20 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 
 function ProfilePage() {
   const [isClicked, setIsClicked] = useState(false);
+  const [profile, setProfile] = useState({});
   const navigate = useNavigate();
 
   const handleOnClickEditBtn = () => {
     setIsClicked(!isClicked);
   };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +45,18 @@ function ProfilePage() {
       navigate("/profile");
     } catch (error) {
       console.log("Error: ", error);
+    }
+  };
+
+  const getProfile = async () => {
+    try {
+      const data = await axios.get(
+        `http://localhost:4000/customer/info?customer_id=10`
+      );
+
+      setProfile(data?.data?.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -89,15 +106,25 @@ function ProfilePage() {
                 <div className="w-[300px] h-[300px] bg-amber-800 rounded-[35px]">
                   IMAGE
                 </div>
-                <b>oshinIsSoCutee</b>
+                <b>{profile?.username}</b>
               </section>
               <section className="flex flex-col gap-y-3">
-                <p>First Name: Shi</p>
-                <p>Last Name: JaoShi</p>
-                <p>Tel: 0984876577</p>
-                <p>Birthday: 2001-11-10</p>
-                <p>Email: oshin.ganjanapas@gmail.com</p>
-                <p>Allergy: -</p>
+                <div>
+                  <b>First Name</b>
+                  <b>Last Name</b>
+                  <b>Birthday</b>
+                  <b>Tel</b>
+                  <b>Email</b>
+                  <b>Allergy</b>
+                </div>
+                <div>
+                  <p>{profile?.firstname}</p>
+                  <p>{profile?.lastname}</p>
+                  <p>{profile?.birthday}</p>
+                  <p>{profile?.tel}</p>
+                  <p>{profile?.email}</p>
+                  <p>{profile?.allergy}</p>
+                </div>
               </section>
             </div>
           </ProfileCard>
@@ -119,10 +146,3 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
-
-// <p>First Name: Shi</p>
-// <p>Last Name: JaoShi</p>
-// <p>Tel: 0984876577</p>
-// <p>Birthday: 2001-11-10</p>
-// <p>Email: oshin.ganjanapas@gmail.com</p>
-// <p>Allergy: -</p>
