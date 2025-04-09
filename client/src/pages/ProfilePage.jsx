@@ -87,9 +87,38 @@ function ProfilePage() {
             <button type="submit">SUBMIT</button>
           </form>
         ) : (
-          <section>
-            <p>Username: {userInfo.username}</p>
-          </section>
+          <ProfileCard>
+            <div className="grid grid-cols-2 gap-x-40">
+              <section className="flex flex-col items-center gap-y-4">
+                <div className="w-[300px] h-[300px] bg-amber-800 rounded-[35px]">
+                  IMAGE
+                </div>
+                <b>{userInfo?.username}</b>
+              </section>
+              <section className="grid grid-cols-2">
+                <div className="flex flex-col gap-y-4">
+                  <b>First Name</b>
+                  <b>Last Name</b>
+                  <b>Birthday</b>
+                  <b>Tel</b>
+                  <b>Email</b>
+                  <b>Allergy</b>
+                </div>
+                <div className="flex flex-col gap-y-4">
+                  <p>{userInfo?.firstName}</p>
+                  <p>{userInfo?.lastName}</p>
+                  <p>
+                    {userInfo?.birthday
+                      ? new Date(userInfo.birthday).toLocaleDateString()
+                      : ""}
+                  </p>
+                  <p>{userInfo?.tel}</p>
+                  <p>{userInfo?.email}</p>
+                  <p>{userInfo?.allergy}</p>
+                </div>
+              </section>
+            </div>
+          </ProfileCard>
         )}
         {isClicked ? null : (
           <button
