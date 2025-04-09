@@ -36,19 +36,12 @@ function ProfilePage() {
           });
         });
 
+        localStorage.setItem("userInfo", userInfo);
         return updated;
       });
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const ProfileCard = (props) => {
-    return (
-      <main className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-16 mt-14">
-        {props.children}
-      </main>
-    );
   };
 
   const handleChange = (e) => {
@@ -65,29 +58,107 @@ function ProfilePage() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    let userInfoJSON = JSON.parse(localStorage.getItem("userInfo")) || {};
+    console.log(userInfoJSON);
+    Object.values(userInfo).forEach((value) => {
+      Object.keys(userInfoJSON).forEach((key) => {
+        userInfoJSON[key] = value;
+      });
+    });
+
+    localStorage.setItem("userInfo", JSON.stringify(userInfoJSON));
+
     setIsClicked(!isClicked);
-    console.log("Submit", userInfo.username);
+    console.log("Submit", userInfoJSON);
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
+    <main className="w-full h-screen flex items-center justify-center">
       <NavBar />
       <section className="flex flex-col w-full items-center max-w-[1180px] gap-6">
         {isClicked ? (
-          <form onSubmit={handleOnSubmit}>
-            <section>
-              <label htmlFor="username">Username</label>
+          <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-16 mt-14">
+            <form onSubmit={handleOnSubmit} className="grid grid-cols-2">
+              <label
+                className="hover:cursor-pointer w-[300px] h-[300px] bg-amber-800 rounded-[35px]"
+                htmlFor="profile-image"
+              >
+                Choose Image
+              </label>
               <input
-                name="username"
-                value={userInfo.username}
-                type="text"
-                onChange={handleChange}
+                type="file"
+                accept="image/*"
+                // onChange={handleImageChange}
+                id="profile-image"
+                hidden
               />
-            </section>
-            <button type="submit">SUBMIT</button>
-          </form>
+              <section className=" flex">
+                <div className="flex flex-col gap-y-4">
+                  <label htmlFor="username">Username </label>
+                  <label htmlFor="firstName">First Name </label>
+                  <label htmlFor="lastName">Last Name </label>
+                  <label htmlFor="birthday">Birthday </label>
+                  <label htmlFor="tel">Tel </label>
+                  <label htmlFor="email">Email </label>
+                  <label htmlFor="allergy">Allergy </label>
+                </div>
+                <div className="flex flex-col gap-y-4">
+                  <input
+                    type="text"
+                    name="username"
+                    className="bg-gray-100 rounded-md px-3 py-1"
+                    value={userInfo.username}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="text"
+                    name="firstName"
+                    id="firstName"
+                    value={userInfo.firstName}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    id="lastName"
+                    value={userInfo.lastName}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="date"
+                    name="birthday"
+                    id="birthday"
+                    value={userInfo.birthday}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="text"
+                    name="tel"
+                    id="tel"
+                    value={userInfo.tel}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value={userInfo.email}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type="text"
+                    name="allergy"
+                    id="allergy"
+                    value={userInfo.allergy}
+                    onChange={handleChange}
+                  />
+                </div>
+              </section>
+              <button type="submit">SUBMIT</button>
+            </form>
+          </section>
         ) : (
-          <ProfileCard>
+          <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-16 mt-14">
             <div className="grid grid-cols-2 gap-x-40">
               <section className="flex flex-col items-center gap-y-4">
                 <div className="w-[300px] h-[300px] bg-amber-800 rounded-[35px]">
@@ -118,7 +189,7 @@ function ProfilePage() {
                 </div>
               </section>
             </div>
-          </ProfileCard>
+          </section>
         )}
         {isClicked ? null : (
           <button
@@ -129,7 +200,7 @@ function ProfilePage() {
           </button>
         )}
       </section>
-    </div>
+    </main>
   );
 }
 
