@@ -36,7 +36,7 @@ function ProfilePage() {
           });
         });
 
-        localStorage.setItem("userInfo", userInfo);
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
         return updated;
       });
     } catch (error) {
@@ -56,20 +56,21 @@ function ProfilePage() {
     setIsClicked(!isClicked);
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-    let userInfoJSON = JSON.parse(localStorage.getItem("userInfo")) || {};
-    console.log(userInfoJSON);
-    Object.values(userInfo).forEach((value) => {
-      Object.keys(userInfoJSON).forEach((key) => {
-        userInfoJSON[key] = value;
-      });
-    });
 
-    localStorage.setItem("userInfo", JSON.stringify(userInfoJSON));
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/customer/edit?customer_id=10`,
+        userInfo
+      );
 
+      // console.log("Update successfully ", response);
+    } catch (error) {
+      console.log(error);
+    }
     setIsClicked(!isClicked);
-    console.log("Submit", userInfoJSON);
+    // console.log("Submit", userInfo);
   };
 
   return (
