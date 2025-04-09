@@ -5,15 +5,43 @@ import NavBar from "../components/NavBar";
 
 function ProfilePage() {
   const [isClicked, setIsClicked] = useState(false);
-  const [formData, setFormData] = useState({
-    username: "Lisa555",
-    firstName: "Lily",
-    lastName: "Hahaha",
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    firstName: "",
+    lastName: "",
     birthday: "",
-    tel: "0981919110",
-    email: "lily55@test.com",
-    allergy: "-",
+    tel: "",
+    email: "",
+    allergy: "",
   });
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
+  const getInfo = async () => {
+    try {
+      const data = await axios(
+        "http://localhost:4000/customer/info?customer_id=10"
+      );
+
+      setUserInfo((prev) => {
+        const updated = { ...prev };
+
+        Object.entries(data.data.data).forEach(([dataKey, dataValue]) => {
+          Object.keys(prev).forEach((key) => {
+            if (dataKey.toLowerCase() === key.toLowerCase()) {
+              updated[key] = dataValue;
+            }
+          });
+        });
+
+        return updated;
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const ProfileCard = (props) => {
     return (
@@ -25,7 +53,7 @@ function ProfilePage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setUserInfo((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -38,7 +66,7 @@ function ProfilePage() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     setIsClicked(!isClicked);
-    console.log("Submit", formData.username);
+    console.log("Submit", userInfo.username);
   };
 
   return (
@@ -51,7 +79,7 @@ function ProfilePage() {
               <label htmlFor="username">Username</label>
               <input
                 name="username"
-                value={formData.username}
+                value={userInfo.username}
                 type="text"
                 onChange={handleChange}
               />
@@ -60,7 +88,7 @@ function ProfilePage() {
           </form>
         ) : (
           <section>
-            <p>Username: {formData.username}</p>
+            <p>Username: {userInfo.username}</p>
           </section>
         )}
         {isClicked ? null : (
