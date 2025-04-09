@@ -3,6 +3,7 @@ import {
   customerRegister,
   customerOrder,
   customerInfo,
+  editCustomerInfo,
 } from "../controllers/customers.js";
 import { validateRegisterCustomer } from "./customerValidation.js";
 
@@ -12,5 +13,6 @@ customer.post("/register", validateRegisterCustomer, customerRegister);
 customer.post("/order", customerOrder);
 customer.get("/customer", customerOrder);
 customer.get("/info", customerInfo);
+customer.put("/edit", editCustomerInfo);
 
 export default customer;
