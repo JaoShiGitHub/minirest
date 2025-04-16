@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+ /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -10,6 +10,7 @@ module.exports = {
       playfairDisplay: ["Playfair Display"],
       roboto: ["Roboto"],
       caveat: ["Caveat"],
+      lato: ["Lato"],
     },
     extend: {
       colors: {
