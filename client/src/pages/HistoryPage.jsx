@@ -57,11 +57,11 @@ function HistoryPage() {
   return (
     <div className="h-full font-lato">
       <NavBar />
-      <div className="my-10 px-20">
-        <h1 className=" font-bold text-3xl">History</h1>
+      <div className="my-20 px-28">
+        <h1 className="font-bold text-3xl">History</h1>
       </div>
 
-      <ul className="grid grid-cols-3 justify-items-center px-40 ">
+      <ul className="grid grid-cols-3 justify-items-center px-40 pb-40">
         {orders.map((item) => {
           return (
             <li
