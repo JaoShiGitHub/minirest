@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
 // import { useNavigate } from "react-router-dom";
 
 function HistoryPage() {
@@ -44,13 +45,17 @@ function HistoryPage() {
   // };
 
   return (
-    <div className="h-screen">
-      <h1 className="">HistoryPage</h1>
-      <ul>
+    <div className="h-screen font-lato">
+      <NavBar />
+      <div className="my-10 px-20">
+        <h1 className=" font-bold text-3xl">History</h1>
+      </div>
+
+      <ul className="grid grid-cols-3">
         {orders.map((item) => {
           return (
-            <li className="bg-white mb-5" key={item.order_id}>
-              <span>Oder: {item.order_id}</span>
+            <li className="bg-white w-fit mb-5" key={item.order_id}>
+              <span className="font-bold">{item.order_id}</span>
               <p>Status: {item.status}</p>
               <p>{item.items.length} Items</p>
               <button className="mt-5 underline">See more</button>
