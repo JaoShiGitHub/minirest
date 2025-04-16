@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
+import FullHistory from "../components/FullHistory";
 // import { useNavigate } from "react-router-dom";
 
 function HistoryPage() {
   const [orders, setOrders] = useState([]);
+  const [IsOpened, setIsOpen] = useState(false);
   // const [deletedOrders, setDeletedOrders] = useState(
   //   JSON.parse(localStorage.getItem("deletedOrders")) || []
   // );
@@ -90,11 +92,17 @@ function HistoryPage() {
                   info={new Date(item.time).toTimeString().slice(0, 5)}
                 />
               </div>
-              <button className="self-end underline mr-16">See more</button>
+              <button
+                className="self-end underline mr-16"
+                onClick={() => setIsOpen(!IsOpened)}
+              >
+                See more
+              </button>
             </li>
           );
         })}
       </ul>
+      {IsOpened ? <FullHistory /> : null}
     </div>
   );
 }
