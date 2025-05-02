@@ -77,14 +77,17 @@ function ProfilePage() {
   };
 
   return (
-    <main className="w-full h-screen flex items-center justify-center">
+    <main className="w-full h-screen flex flex-col items-center">
       <NavBar />
       <section className="flex flex-col w-full items-center max-w-[1180px] gap-6">
         {isClicked ? (
-          <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-16 mt-14">
-            <form onSubmit={handleOnSubmit} className="grid grid-cols-2">
+          <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-14 mt-14">
+            <form
+              onSubmit={handleOnSubmit}
+              className="relative grid grid-cols-2"
+            >
               <label
-                className="hover:cursor-pointer w-[300px] h-[300px] bg-amber-800 rounded-[35px]"
+                className="hover:cursor-pointer w-[300px] h-[300px] bg-amber-800 rounded-[35px] text-center"
                 htmlFor="profile-image"
               >
                 Choose Image
@@ -96,8 +99,8 @@ function ProfilePage() {
                 id="profile-image"
                 hidden
               />
-              <section className=" flex">
-                <div className="flex flex-col gap-y-4">
+              <section className="flex">
+                <div className="flex flex-col gap-y-7 min-w-[120px] font-bold font-lato mt-1">
                   <label htmlFor="username">Username </label>
                   <label htmlFor="firstName">First Name </label>
                   <label htmlFor="lastName">Last Name </label>
@@ -106,15 +109,16 @@ function ProfilePage() {
                   <label htmlFor="email">Email </label>
                   <label htmlFor="allergy">Allergy </label>
                 </div>
-                <div className="flex flex-col gap-y-4">
+                <div className="flex flex-col gap-y-5 ">
                   <input
+                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
                     type="text"
                     name="username"
-                    className="bg-gray-100 rounded-md px-3 py-1"
                     value={userInfo.username}
                     onChange={handleChange}
                   />
                   <input
+                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
                     type="text"
                     name="firstName"
                     id="firstName"
@@ -122,6 +126,7 @@ function ProfilePage() {
                     onChange={handleChange}
                   />
                   <input
+                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
                     type="text"
                     name="lastName"
                     id="lastName"
@@ -129,6 +134,7 @@ function ProfilePage() {
                     onChange={handleChange}
                   />
                   <input
+                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
                     type="date"
                     name="birthday"
                     id="birthday"
@@ -136,6 +142,7 @@ function ProfilePage() {
                     onChange={handleChange}
                   />
                   <input
+                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
                     type="text"
                     name="tel"
                     id="tel"
@@ -146,10 +153,12 @@ function ProfilePage() {
                     type="email"
                     name="email"
                     id="email"
+                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
                     value={userInfo.email}
                     onChange={handleChange}
                   />
                   <input
+                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
                     type="text"
                     name="allergy"
                     id="allergy"
@@ -158,20 +167,33 @@ function ProfilePage() {
                   />
                 </div>
               </section>
-              <button type="submit">SUBMIT</button>
+              <div className="absolute font-bold right-0 bottom-[-150px] flex gap-x-2">
+                <button
+                  className="bg-[#3D3D3D] text-white shadow-xl py-2 px-8 rounded-full"
+                  onClick={() => setIsClicked(!isClicked)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-white shadow-xl py-2 px-8 rounded-full "
+                  type="submit"
+                >
+                  SAVE
+                </button>
+              </div>
             </form>
           </section>
         ) : (
-          <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-16 mt-14">
-            <div className="grid grid-cols-2 gap-x-40">
+          <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-14 mt-14">
+            <div className="grid grid-cols-2">
               <section className="flex flex-col items-center gap-y-4">
-                <div className="w-[300px] h-[300px] bg-amber-800 rounded-[35px]">
+                <div className="w-[300px] h-[300px] bg-amber-800 rounded-[35px] text-center">
                   IMAGE
                 </div>
-                <b>{userInfo?.username}</b>
+                <b className="text-2xl">{userInfo?.username}</b>
               </section>
-              <section className="grid grid-cols-2">
-                <div className="flex flex-col gap-y-4">
+              <section className="flex gap-x-10 text-xl font-lato font-normal mt-4">
+                <div className="flex flex-col gap-y-5 min-w-[120px]">
                   <b>First Name</b>
                   <b>Last Name</b>
                   <b>Birthday</b>
@@ -179,7 +201,7 @@ function ProfilePage() {
                   <b>Email</b>
                   <b>Allergy</b>
                 </div>
-                <div className="flex flex-col gap-y-4">
+                <div className="flex flex-col gap-y-5">
                   <p>{userInfo?.firstName}</p>
                   <p>{userInfo?.lastName}</p>
                   <p>
