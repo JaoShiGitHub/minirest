@@ -68,7 +68,7 @@ const customerOrder = async (req, res) => {
 };
 
 const editCustomerInfo = async (req, res) => {
-  const { username, firstname, lastname, tel, email, allergy, birthday } =
+  const { username, firstName, lastName, tel, email, allergy, birthday } =
     req.body;
   const { customer_id } = req.query;
   try {
@@ -76,8 +76,8 @@ const editCustomerInfo = async (req, res) => {
       `UPDATE customers SET username = $1, firstname = $2, lastname = $3, tel= $4, email = $5, allergy = $6, birthday = $7 WHERE id = $8`,
       [
         username,
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         tel,
         email,
         allergy,
@@ -91,4 +91,19 @@ const editCustomerInfo = async (req, res) => {
   }
 };
 
-export { customerRegister, customerOrder, editCustomerInfo };
+const customerInfo = async (req, res) => {
+  const { customer_id } = req.query;
+  try {
+    const info = await pool.query("SELECT * FROM customers WHERE id = $1", [
+      customer_id,
+    ]);
+    return res.status(200).json({
+      message: "Customer info fetched successfully",
+      data: info.rows[0],
+    });
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export { customerRegister, customerOrder, editCustomerInfo, customerInfo };

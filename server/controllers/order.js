@@ -13,6 +13,10 @@ const orderHistory = async (req, res) => {
     const idAndStatus = data.rows.map((obj) => ({
       order_id: obj["order_id"],
       status: obj["status"],
+      time: obj["order_date"],
+      description: obj["description"],
+      dining_status: ["dining_status"],
+      payment_status: ["delivery"],
     }));
 
     const placeholders = arrOrderId
@@ -53,7 +57,7 @@ const orderHistory = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Order history fetched successfully", filteredOrdered });
+      .json({ message: "Order history fetched successfully", orderItems });
   } catch (error) {
     return res.json({ error: error });
   }
