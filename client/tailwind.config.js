@@ -10,6 +10,7 @@ module.exports = {
       playfairDisplay: ["Playfair Display"],
       roboto: ["Roboto"],
       caveat: ["Caveat"],
+      lato: ["Lato"],
     },
     extend: {
       colors: {
