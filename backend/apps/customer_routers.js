@@ -14,5 +14,5 @@ customer.post("/order", customerOrder);
 customer.get("/customer", customerOrder);
 customer.get("/info", customerInfo);
 customer.put("/edit", editCustomerInfo);
-// Test github
+
 export default customer;
