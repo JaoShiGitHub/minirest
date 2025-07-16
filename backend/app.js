@@ -3,11 +3,11 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import authRouter from "./apps/auth.js";
-import menu from "./apps/menu_routers.js";
-import customer from "./apps/customer_routers.js";
-import admin from "./apps/admin_routers.js";
-import order from "./apps/order_routers.js";
+import authRouter from "./controllers/auth.js";
+import menu from "./routers/menu_routers.js";
+import customer from "./routers/customer_routers.js";
+import admin from "./routers/admin_routers.js";
+import order from "./routers/order_routers.js";
 import { editCustomerInfo } from "./controllers/customers.js";
 
 const app = express();
@@ -18,7 +18,6 @@ app.use(bodyParser.json());
 app.use("/auth", authRouter); // Login
 app.use("/menu", menu);
 app.use("/customer", customer);
-app.use("/admin", admin);
 app.use("/order", order);
 app.put("/edit-customer-info", editCustomerInfo);
 
