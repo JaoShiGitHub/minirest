@@ -36,7 +36,7 @@ function RegisterPage() {
         MINIREST
       </h1>
       <p className="text-3xl font-bold">Let's be our member!</p>
-      <form className="grid grid-cols-2 gap-y-6 gap-x-10">
+      <form className="flex flex-wrap flex-col h-[280px] gap-y-6 gap-x-10">
         <FormLabel
           name="username"
           placeholder="Username"
@@ -74,15 +74,6 @@ function RegisterPage() {
           }}
         />
         <FormLabel
-          name="allergy"
-          placeholder="Allergy?"
-          value={allergy}
-          type="text"
-          handleOnChange={(e) => {
-            setAllergy(e.target.value);
-          }}
-        />
-        <FormLabel
           name="tel"
           placeholder="Tel."
           value={tel}
@@ -107,6 +98,15 @@ function RegisterPage() {
           type="text"
           handleOnChange={(e) => {
             setPassword(e.target.value);
+          }}
+        />
+        <FormLabel
+          name="allergy"
+          placeholder="Allergy?"
+          value={allergy}
+          type="text"
+          handleOnChange={(e) => {
+            setAllergy(e.target.value);
           }}
         />
       </form>
