@@ -181,7 +181,7 @@ function ProfilePage() {
             </form>
           </section>
         ) : (
-          <section className="bg-[#FDFDFA] flex justify-between w-full min-w-[930px] rounded-2xl shadow-lg mt-24">
+          <section className="bg-[#FDFDFA] flex justify-between w-full min-w-[930px] rounded-2xl shadow-2xl mt-24">
             <section className="flex flex-col items-center">
               <img
                 className="min-w-[620px] min-h-[620px] rounded-l-2xl"
@@ -190,8 +190,8 @@ function ProfilePage() {
 
               <b className="text-2xl">{userInfo?.username}</b>
             </section>
-            <section className="flex flex-col justify-center px-32">
-              <h1 className="font-bold text-4xl mb-14">LovelyKate007</h1>
+            <section className="flex flex-col justify-center px-28">
+              <h1 className="font-bold text-5xl mb-14">LovelyKate007</h1>
               <div className="flex text-xl gap-x-10">
                 <div className="flex flex-col gap-y-5 min-w-[120px]">
                   <b className="mb-4">Allergy:</b>
@@ -226,10 +226,10 @@ function ProfilePage() {
         )}
         {isClicked ? null : (
           <button
-            className="self-end bg-white shadow-lg w-28 h-10 rounded-[50px] font-bold"
+            className="self-end bg-white hover:bg-orange-200 shadow-lg px-11 py-3 rounded-[50px] font-bold mt-10"
             onClick={handleOnClickEditBtn}
           >
-            Edit
+            Edit Profile
           </button>
         )}
       </section>
