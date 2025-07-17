@@ -1,3 +1,4 @@
+// Login
 const validateLoginCustomer = async (req, res, next) => {
   const { identifier, password } = req.body;
   // identifier = email || username
@@ -15,6 +16,7 @@ const validateLoginCustomer = async (req, res, next) => {
   next();
 };
 
+// Register
 const validateRegisterCustomer = async (req, res, next) => {
   const requiredFields = {
     username: req.body.username,
