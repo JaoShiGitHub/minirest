@@ -2,9 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
-import authRouter from "./controllers/auth.js";
-
 const app = express();
 dotenv.config();
 
@@ -17,7 +14,7 @@ app.use(
   })
 );
 
-app.use("/auth", authRouter);
+app.post("/login");
 
 app.listen(4000, () => {
   console.log("Server is listening at port 4000");

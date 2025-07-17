@@ -1,6 +1,54 @@
+import { isEmail } from "../utils/common.js";
 import { pool } from "../utils/db.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
+// Login
+const customerLogin = async (req, res) => {
+  const { identifier, password } = req.body;
+
+  const type = isEmail(identifier) ? "Email" : "Username";
+
+  const data = await pool.query(
+    `SELECT * FROM customers WHERE ${type.toLowerCase()} = $1`,
+    [identifier]
+  );
+
+  const customer = data.rows[0];
+
+  if (customer.length === 0) {
+    return res.status(404).json({ message: `${type} not found` });
+  }
+
+  const isValidPassword = await bcrypt.compare(password, customer.password);
+
+  if (!isValidPassword) {
+    return res.status(400).json({ message: `Invalid Password` });
+  }
+
+  const token = jwt.sign(
+    {
+      id: customer.id,
+      username: customer.username,
+      firstName: customer.firstname,
+    },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: "1d",
+    }
+  );
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
+  return res.status(200).json({ message: "Login Successfully", token });
+};
+
+// Register
 const customerRegister = async (req, res) => {
   const { username, firstName, lastName, tel, email, birthday, allergy } =
     req.body;
@@ -31,7 +79,8 @@ const customerRegister = async (req, res) => {
   }
 };
 
-const customerOrder = async (req, res) => {
+// Add New Order
+const customerAddOrder = async (req, res) => {
   const { customer_id, description, dining_status, payment_status, orders } =
     req.body;
   const status = "Order Placed";
@@ -67,7 +116,8 @@ const customerOrder = async (req, res) => {
   }
 };
 
-const editCustomerInfo = async (req, res) => {
+// Edit Customer Info
+const customerEditInfo = async (req, res) => {
   const { username, firstName, lastName, tel, email, allergy, birthday } =
     req.body;
   const { customer_id } = req.query;
@@ -91,6 +141,7 @@ const editCustomerInfo = async (req, res) => {
   }
 };
 
+// Get Customer's Info
 const customerInfo = async (req, res) => {
   const { customer_id } = req.query;
   try {
@@ -106,4 +157,10 @@ const customerInfo = async (req, res) => {
   }
 };
 
-export { customerRegister, customerOrder, editCustomerInfo, customerInfo };
+export {
+  customerRegister,
+  customerAddOrder,
+  customerEditInfo,
+  customerInfo,
+  customerLogin,
+};
