@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="bg-background">
       {/* {auth.isAuthenticated ? <AuthenticatedApp /> : <UnAuthenticatedApp />} */}
-      <UnAuthenticatedApp />
+      <AuthenticatedApp />
     </div>
   );
 }

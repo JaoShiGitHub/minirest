@@ -79,13 +79,10 @@ function ProfilePage() {
   return (
     <main className="w-full h-screen flex flex-col items-center">
       <NavBar />
-      <section className="flex flex-col w-full items-center max-w-[1180px] gap-6">
+      <section className="flex flex-col w-full items-center max-w-[1400px]">
         {isClicked ? (
           <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-14 mt-14">
-            <form
-              onSubmit={handleOnSubmit}
-              className="relative grid grid-cols-2"
-            >
+            <form onSubmit={handleOnSubmit} className=" grid grid-cols-2">
               <label
                 className="hover:cursor-pointer w-[300px] h-[300px] bg-amber-800 rounded-[35px] text-center"
                 htmlFor="profile-image"
@@ -184,37 +181,47 @@ function ProfilePage() {
             </form>
           </section>
         ) : (
-          <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-14 mt-14">
-            <div className="grid grid-cols-2">
-              <section className="flex flex-col items-center gap-y-4">
-                <div className="w-[300px] h-[300px] bg-amber-800 rounded-[35px] text-center">
-                  IMAGE
-                </div>
-                <b className="text-2xl">{userInfo?.username}</b>
-              </section>
-              <section className="flex gap-x-10 text-xl font-lato font-normal mt-4">
+          <section className="bg-[#FDFDFA] flex justify-between w-full min-w-[930px] rounded-2xl shadow-lg mt-24">
+            <section className="flex flex-col items-center">
+              <img
+                className="min-w-[620px] min-h-[620px] rounded-l-2xl"
+                src="images/user.png"
+              />
+
+              <b className="text-2xl">{userInfo?.username}</b>
+            </section>
+            <section className="flex flex-col justify-center px-32">
+              <h1 className="font-bold text-4xl mb-14">LovelyKate007</h1>
+              <div className="flex text-xl gap-x-10">
                 <div className="flex flex-col gap-y-5 min-w-[120px]">
-                  <b>First Name</b>
-                  <b>Last Name</b>
-                  <b>Birthday</b>
-                  <b>Tel</b>
-                  <b>Email</b>
-                  <b>Allergy</b>
+                  <b className="mb-4">Allergy:</b>
+                  <b>First Name:</b>
+                  <b>Last Name:</b>
+                  <b>Birthday:</b>
+                  <b>Tel:</b>
+                  <b>Email:</b>
+                  <b>Location:</b>
                 </div>
                 <div className="flex flex-col gap-y-5">
-                  <p>{userInfo?.firstName}</p>
-                  <p>{userInfo?.lastName}</p>
+                  <p className="mb-4">
+                    {userInfo?.allergy || "I’m allergic to eggs, cow’s milk."}
+                  </p>
+                  <p>{userInfo?.firstName || "Katherien"}</p>
+                  <p>{userInfo?.lastName || "Bello"}</p>
                   <p>
                     {userInfo?.birthday
                       ? new Date(userInfo.birthday).toLocaleDateString()
-                      : ""}
+                      : "10 Nov. 2001"}
                   </p>
-                  <p>{userInfo?.tel}</p>
-                  <p>{userInfo?.email}</p>
-                  <p>{userInfo?.allergy}</p>
+                  <p>{userInfo?.tel || "0984876577"}</p>
+                  <p>{userInfo?.email || "katherien@example.com"}</p>
+                  <p>
+                    {userInfo?.location ||
+                      "999, Sukhumvit 95, Bang Chak, Phrakanong, 10260. (Next to Robert's fly chicken)"}
+                  </p>
                 </div>
-              </section>
-            </div>
+              </div>
+            </section>
           </section>
         )}
         {isClicked ? null : (
@@ -229,5 +236,6 @@ function ProfilePage() {
     </main>
   );
 }
+// grid grid-cols-2 bg-orange-500
 
 export default ProfilePage;
