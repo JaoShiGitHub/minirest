@@ -14,7 +14,7 @@ const FormLabel = (props) => {
         type={type}
         placeholder={placeholder}
         onChange={handleOnChange}
-        className="border rounded-md p-2  min-w-[280px]"
+        className="border rounded-md p-2  min-w-[280px] shadow-sm"
       />
     </div>
   );
@@ -28,6 +28,7 @@ function EditProfile(props) {
     current_birthday,
     current_email,
     current_allergy,
+    current_location,
   } = props;
 
   const [username, setUsername] = useState(current_username);
@@ -36,6 +37,7 @@ function EditProfile(props) {
   const [birthday, setBirthday] = useState(current_birthday);
   const [email, setEmail] = useState(current_email);
   const [allergy, setAllergy] = useState(current_allergy);
+  const [location, setLocation] = useState(current_location);
   //   other states
   const [previewImage, setPreviewImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
@@ -80,7 +82,7 @@ function EditProfile(props) {
       <img
         src={previewImage}
         alt={current_username}
-        className="min-w-[500px] max-h-[500px] rounded-2xl ml-20 shadow-xl"
+        className="min-w-[500px] max-h-[500px] rounded-2xl ml-20 shadow-lg"
       />
       <form
         onSubmit={handleOnSubmit}
@@ -138,10 +140,10 @@ function EditProfile(props) {
           <FormLabel
             name="location"
             label="Location"
-            value={allergy}
+            value={location}
             type="text"
-            placeholder="Allergy"
-            handleOnChange={(e) => setAllergy(e.target.value)}
+            placeholder="Location"
+            handleOnChange={(e) => setLocation(e.target.value)}
           />
           <label className="hover:bg-amber-700 shadow-xl bg-orange-200 hover:text-yellow-50 text-black font-bold text-center mt-10 p-2 min-w-[280px] rounded cursor-pointer inline-block">
             <input
