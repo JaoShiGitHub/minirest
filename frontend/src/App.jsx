@@ -6,8 +6,7 @@ function App() {
   const auth = useAuth();
   return (
     <div className="bg-background">
-      {/* {auth.isAuthenticated ? <AuthenticatedApp /> : <UnAuthenticatedApp />} */}
-      <AuthenticatedApp />
+      {auth.isAuthenticated ? <AuthenticatedApp /> : <UnAuthenticatedApp />}
     </div>
   );
 }

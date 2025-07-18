@@ -6,17 +6,23 @@ function LoginPage() {
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const { login } = useAuth(); // Call the hook directly
+  const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login({
-      identifier,
-      password,
-    });
+    try {
+      await login({
+        identifier,
+        password,
+      });
+    } catch (error) {
+      setErrorMessage(error);
+    }
   };
 
+  console.log("Login error: ", errorMessage);
   return (
     <section className="flex flex-col items-center h-screen">
       <div className="flex flex-col items-center mt-24">
