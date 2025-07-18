@@ -80,7 +80,7 @@ function EditProfile(props) {
   };
 
   return (
-    <section className="flex flex-col mt-20">
+    <section className="flex flex-col">
       {editProfileMessage ? <p>{editProfileMessage}</p> : null}
       <ProfileCard>
         <img
