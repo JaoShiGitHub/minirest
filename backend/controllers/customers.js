@@ -81,8 +81,8 @@ const customerRegister = async (req, res) => {
 
 // Add New Order
 const customerAddOrder = async (req, res) => {
-  const { customer_id, description, dining_status, payment_status, orders } =
-    req.body;
+  const { description, dining_status, payment_status, orders } = req.body;
+  const customer_id = req.customer.id;
   const status = "Order Placed";
   const order_date = new Date().toISOString();
   const order_id = Math.random().toString(36).substring(2, 18);

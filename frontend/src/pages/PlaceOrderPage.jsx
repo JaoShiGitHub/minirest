@@ -21,7 +21,6 @@ function PlaceOrderPage() {
       const response = await axios.post(
         "http://localhost:4000/customer/order",
         {
-          customer_id: 10,
           description: description,
           dining_status: diningStatus,
           payment_status: "",
