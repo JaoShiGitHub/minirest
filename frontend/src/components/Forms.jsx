@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ProfileCard } from "./Cards";
-import axios, { all } from "axios";
+import axios from "axios";
+import { useEditProfile } from "../pages/ProfilePage";
 
 const FormLabel = (props) => {
   const { name, label, value, type, placeholder, handleOnChange } = props;
@@ -21,6 +22,7 @@ const FormLabel = (props) => {
 };
 
 function EditProfile(props) {
+  const { setIsClicked } = useEditProfile();
   const {
     current_username,
     current_firstName,
@@ -41,6 +43,7 @@ function EditProfile(props) {
   //   other states
   const [previewImage, setPreviewImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -160,7 +163,10 @@ function EditProfile(props) {
         </form>
       </ProfileCard>
       <div className="self-end text-xl mt-10">
-        <button className="bg-slate-800 hover:bg-amber-700 hover:text-yellow-5 text-white shadow-lg py-2 px-2 rounded-full min-w-32">
+        <button
+          className="bg-slate-800 hover:bg-amber-700 hover:text-yellow-5 text-white shadow-lg py-2 px-2 rounded-full min-w-32"
+          onClick={() => setIsClicked(false)}
+        >
           Cancel
         </button>
         <button className="bg-white hover:bg-amber-700 hover:text-yellow-50 shadow-lg py-2 px-2 rounded-full min-w-32 ml-7">
