@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,21 @@ function AuthProvider(props) {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+
+  const checkAuth = async () => {
+    try {
+      await axios.get(`http://localhost:4000/customer/info`, {
+        withCredentials: true,
+      });
+      setIsAuthenticated(true);
+    } catch {
+      setIsAuthenticated(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   const login = async (data) => {
     try {

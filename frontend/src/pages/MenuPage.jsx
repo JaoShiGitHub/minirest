@@ -15,9 +15,11 @@ function MenuPage() {
 
   const getMenu = async () => {
     try {
-      const MENU = await axios.get("http://localhost:4000/menu");
-      setData(MENU?.data?.data?.rows);
-      console.log(MENU?.data?.data?.rows);
+      const MENU = await axios.get("http://localhost:4000/menu", {
+        withCredentials: true,
+      });
+      setData(MENU?.data?.data);
+      console.log(MENU?.data?.data);
     } catch (error) {
       console.error(error);
     }

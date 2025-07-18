@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import FullHistory from "../components/FullHistory";
+
 // import { useNavigate } from "react-router-dom";
 
 export const HistoryDataContext = React.createContext();
@@ -32,12 +33,13 @@ function HistoryPage() {
 
   const getOrder = async () => {
     try {
-      const orders = await axios.get(
-        "http://localhost:4000/order/history?customer_id=10"
-      );
-      console.log(orders?.data?.filteredOrdered);
+      const orders = await axios.get("http://localhost:4000/order/history", {
+        withCredentials: true,
+      });
+      console.log(orders?.data);
+      // console.log(orders?.data?.filteredOrdered);
 
-      setOrders(orders?.data?.filteredOrdered);
+      // setOrders(orders?.data?.filteredOrdered);
     } catch (err) {
       alert(err.response.data.msg);
     }

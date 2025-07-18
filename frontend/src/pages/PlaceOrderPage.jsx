@@ -26,7 +26,8 @@ function PlaceOrderPage() {
           dining_status: diningStatus,
           payment_status: "",
           orders: menuItems,
-        }
+        },
+        { withCredentials: true }
       );
       console.log("Success: ", response);
       navigate("/order-received");

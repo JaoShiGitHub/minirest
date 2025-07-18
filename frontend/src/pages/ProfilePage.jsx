@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 
 function ProfilePage() {
@@ -21,27 +21,27 @@ function ProfilePage() {
 
   const getInfo = async () => {
     try {
-      const data = await axios(
-        "http://localhost:4000/customer/info?customer_id=10"
-      );
-
-      setUserInfo((prev) => {
-        const updated = { ...prev };
-
-        Object.entries(data.data.data).forEach(([dataKey, dataValue]) => {
-          Object.keys(prev).forEach((key) => {
-            if (dataKey.toLowerCase() === key.toLowerCase()) {
-              updated[key] = dataValue;
-            }
-          });
-        });
-        console.log(userInfo);
-
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        return updated;
+      const data = await axios("http://localhost:4000/customer/info", {
+        withCredentials: true,
       });
 
-      console.log(userInfo);
+      // setUserInfo((prev) => {
+      //   const updated = { ...prev };
+
+      //   Object.entries(data.data.data).forEach(([dataKey, dataValue]) => {
+      //     Object.keys(prev).forEach((key) => {
+      //       if (dataKey.toLowerCase() === key.toLowerCase()) {
+      //         updated[key] = dataValue;
+      //       }
+      //     });
+      //   });
+      console.log(data);
+
+      // localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      // return updated;
+      // });
+
+      // console.log(userInfo);
     } catch (error) {
       console.log(error);
     }
