@@ -64,7 +64,7 @@ function ProfilePage() {
 
   return (
     <EditProfileContext.Provider value={{ isClicked, setIsClicked }}>
-      <main className="w-full h-screen flex flex-col items-center">
+      <main className="w-full min-h-screen flex flex-col items-center pb-40">
         <NavBar />
         <section className="flex flex-col w-full items-center max-w-[1400px]">
           {isClicked ? (
@@ -76,6 +76,7 @@ function ProfilePage() {
               current_email={userInfo?.email}
               current_allergy={userInfo?.allergy}
               current_location=""
+              current_tel={userInfo?.tel}
             />
           ) : (
             <ProfileCard>

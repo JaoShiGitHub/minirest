@@ -13,6 +13,7 @@ function EditProfile(props) {
     current_email,
     current_allergy,
     current_location,
+    current_tel,
   } = props;
 
   const [username, setUsername] = useState(current_username);
@@ -22,6 +23,7 @@ function EditProfile(props) {
   const [email, setEmail] = useState(current_email);
   const [allergy, setAllergy] = useState(current_allergy);
   const [location, setLocation] = useState(current_location);
+  const [tel, setTel] = useState(current_tel);
   //   other states
   const [previewImage, setPreviewImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
@@ -43,6 +45,7 @@ function EditProfile(props) {
           allergy,
           image,
           location,
+          tel,
         },
         {
           withCredentials: true,
@@ -77,7 +80,7 @@ function EditProfile(props) {
   };
 
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col mt-20">
       {editProfileMessage ? <p>{editProfileMessage}</p> : null}
       <ProfileCard>
         <img
@@ -88,9 +91,9 @@ function EditProfile(props) {
         <form
           id="edit-profile"
           onSubmit={handleOnSubmit}
-          className="w-full flex items-start text-lg"
+          className="w-full flex items-start"
         >
-          <div className="flex flex-wrap gap-y-6 flex-col gap-x-10 p-20 w-full h-[600px]">
+          <div className="flex flex-wrap gap-y-6 flex-col gap-x-10 w-full h-[600px] p-14">
             <FormLabel
               name="username"
               label="Username"
@@ -130,6 +133,14 @@ function EditProfile(props) {
               type="email"
               placeholder="Email"
               handleOnChange={(e) => setEmail(e.target.value)}
+            />
+            <FormLabel
+              name="tel"
+              label="Tel"
+              value={tel}
+              type="text"
+              placeholder="Tel"
+              handleOnChange={(e) => setTel(e.target.value)}
             />
             <FormLabel
               name="allergy"
