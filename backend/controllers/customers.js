@@ -145,14 +145,15 @@ const customerEditInfo = async (req, res) => {
 
 // Get Customer's Info
 const customerInfo = async (req, res) => {
-  const { customer_id } = req.query;
+  const customer_id = req.customer.id;
   try {
     const info = await pool.query("SELECT * FROM customers WHERE id = $1", [
       customer_id,
     ]);
+
     return res.status(200).json({
       message: "Customer info fetched successfully",
-      data: info.rows[0],
+      user_data: info?.rows[0],
     });
   } catch (error) {
     return res.json({

@@ -25,23 +25,22 @@ function ProfilePage() {
         withCredentials: true,
       });
 
-      // setUserInfo((prev) => {
-      //   const updated = { ...prev };
+      const user = data?.data?.user_data;
+      console.log(user);
 
-      //   Object.entries(data.data.data).forEach(([dataKey, dataValue]) => {
-      //     Object.keys(prev).forEach((key) => {
-      //       if (dataKey.toLowerCase() === key.toLowerCase()) {
-      //         updated[key] = dataValue;
-      //       }
-      //     });
-      //   });
-      console.log(data);
+      setUserInfo((prev) => {
+        const updated = { ...prev };
 
-      // localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      // return updated;
-      // });
+        Object.entries(user).forEach(([dataKey, dataValue]) => {
+          Object.keys(prev).forEach((key) => {
+            if (dataKey.toLowerCase() === key.toLowerCase()) {
+              updated[key] = dataValue;
+            }
+          });
+        });
 
-      // console.log(userInfo);
+        return updated;
+      });
     } catch (error) {
       console.log(error);
     }
@@ -187,11 +186,9 @@ function ProfilePage() {
                 className="min-w-[620px] min-h-[620px] rounded-l-2xl"
                 src="images/user.png"
               />
-
-              <b className="text-2xl">{userInfo?.username}</b>
             </section>
-            <section className="flex flex-col justify-center px-28">
-              <h1 className="font-bold text-5xl mb-14">LovelyKate007</h1>
+            <section className="flex flex-col justify-center w-full px-28">
+              <h1 className="font-bold text-5xl mb-14">{userInfo?.username}</h1>
               <div className="flex text-xl gap-x-10">
                 <div className="flex flex-col gap-y-5 min-w-[120px]">
                   <b className="mb-4">Allergy:</b>
@@ -203,9 +200,7 @@ function ProfilePage() {
                   <b>Location:</b>
                 </div>
                 <div className="flex flex-col gap-y-5">
-                  <p className="mb-4">
-                    {userInfo?.allergy || "I’m allergic to eggs, cow’s milk."}
-                  </p>
+                  <p className="mb-4">{userInfo?.allergy || "Null"}</p>
                   <p>{userInfo?.firstName || "Katherien"}</p>
                   <p>{userInfo?.lastName || "Bello"}</p>
                   <p>
@@ -215,10 +210,7 @@ function ProfilePage() {
                   </p>
                   <p>{userInfo?.tel || "0984876577"}</p>
                   <p>{userInfo?.email || "katherien@example.com"}</p>
-                  <p>
-                    {userInfo?.location ||
-                      "999, Sukhumvit 95, Bang Chak, Phrakanong, 10260. (Next to Robert's fly chicken)"}
-                  </p>
+                  <p>{userInfo?.location || "Null"}</p>
                 </div>
               </div>
             </section>
