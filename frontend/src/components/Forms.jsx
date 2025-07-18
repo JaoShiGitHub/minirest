@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { ProfileCard } from "./Cards";
 import axios, { all } from "axios";
 
 const FormLabel = (props) => {
-  const { name, value, type, placeholder, handleOnChange } = props;
+  const { name, label, value, type, placeholder, handleOnChange } = props;
   return (
-    <label>
+    <div className="flex flex-col gap-2">
+      <label className="font-bold">{label}:</label>
       <input
         id={name}
         name={name}
@@ -13,9 +14,9 @@ const FormLabel = (props) => {
         type={type}
         placeholder={placeholder}
         onChange={handleOnChange}
-        className="border rounded-md p-2 mb-4"
+        className="border rounded-md p-2  min-w-[280px]"
       />
-    </label>
+    </div>
   );
 };
 
@@ -76,59 +77,83 @@ function EditProfile(props) {
 
   return (
     <ProfileCard>
-      <form onSubmit={handleOnSubmit}>
-        <label className="bg-blue-500 hover:bg-blue-900 mb-5 text-white px-4 py-1 rounded cursor-pointer inline-block">
-          <input
-            type="file"
-            name="photo"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-          />{" "}
-          Change image
-        </label>
-        <FormLabel
-          name="username"
-          value={username}
-          type="text"
-          placeholder="Username"
-          handleOnChange={(e) => setUsername(e.target.value)}
-        />
-        <FormLabel
-          name="firstName"
-          value={firstName}
-          type="text"
-          placeholder="First Name"
-          handleOnChange={(e) => setFirstName(e.target.value)}
-        />
-        <FormLabel
-          name="lastName"
-          value={lastName}
-          type="text"
-          placeholder="Last Name"
-          handleOnChange={(e) => setLastName(e.target.value)}
-        />
-        <FormLabel
-          name="birthday"
-          value={birthday}
-          type="date"
-          placeholder="Birthday"
-          handleOnChange={(e) => setBirthday(e.target.value)}
-        />
-        <FormLabel
-          name="email"
-          value={email}
-          type="email"
-          placeholder="Email"
-          handleOnChange={(e) => setEmail(e.target.value)}
-        />
-        <FormLabel
-          name="allergy"
-          value={allergy}
-          type="text"
-          placeholder="Allergy"
-          handleOnChange={(e) => setAllergy(e.target.value)}
-        />
+      <img
+        src={previewImage}
+        alt={current_username}
+        className="min-w-[500px] max-h-[500px] rounded-2xl ml-20 shadow-xl"
+      />
+      <form
+        onSubmit={handleOnSubmit}
+        className="w-full flex items-start text-lg"
+      >
+        <div className="flex flex-wrap gap-y-6 flex-col gap-x-10 p-20 w-full h-[600px]">
+          <FormLabel
+            name="username"
+            label="Username"
+            value={username}
+            type="text"
+            placeholder="Username"
+            handleOnChange={(e) => setUsername(e.target.value)}
+          />
+          <FormLabel
+            name="firstName"
+            label="First Name"
+            value={firstName}
+            type="text"
+            placeholder="First Name"
+            handleOnChange={(e) => setFirstName(e.target.value)}
+          />
+          <FormLabel
+            name="lastName"
+            label="Last Name"
+            value={lastName}
+            type="text"
+            placeholder="Last Name"
+            handleOnChange={(e) => setLastName(e.target.value)}
+          />
+          <FormLabel
+            name="birthday"
+            label="Birthday date"
+            value={birthday}
+            type="date"
+            placeholder="Birthday"
+            handleOnChange={(e) => setBirthday(e.target.value)}
+          />
+          <FormLabel
+            name="email"
+            label="Email"
+            value={email}
+            type="email"
+            placeholder="Email"
+            handleOnChange={(e) => setEmail(e.target.value)}
+          />
+          <FormLabel
+            name="allergy"
+            label="Allergy"
+            value={allergy}
+            type="text"
+            placeholder="Allergy"
+            handleOnChange={(e) => setAllergy(e.target.value)}
+          />
+          <FormLabel
+            name="location"
+            label="Location"
+            value={allergy}
+            type="text"
+            placeholder="Allergy"
+            handleOnChange={(e) => setAllergy(e.target.value)}
+          />
+          <label className="hover:bg-amber-700 shadow-xl bg-orange-200 hover:text-yellow-50 text-black font-bold text-center mt-10 p-2 min-w-[280px] rounded cursor-pointer inline-block">
+            <input
+              type="file"
+              name="photo"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="hidden"
+            />{" "}
+            Change Image
+          </label>
+        </div>
       </form>
     </ProfileCard>
   );
