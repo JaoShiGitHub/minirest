@@ -1,4 +1,11 @@
 import { Router } from "express";
+// Middlewares
+import authUser from "../middlewares/auth.js";
+import {
+  validateLoginCustomer,
+  validateRegisterCustomer,
+} from "../middlewares/customer_middlewares.js";
+// Controllers
 import {
   customerRegister,
   customerAddOrder,
@@ -6,13 +13,11 @@ import {
   customerInfo,
   customerLogin,
 } from "../controllers/customers.js";
-import { validateRegisterCustomer } from "./customerValidation.js";
-import authUser from "../middlewares/auth.js";
 
 const customer = Router();
 
 // POST
-customer.post("/login", customerLogin);
+customer.post("/login", validateLoginCustomer, customerLogin);
 customer.post("/register", validateRegisterCustomer, customerRegister);
 customer.post("/order", authUser, customerAddOrder);
 // GET
