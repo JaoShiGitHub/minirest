@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import { ProfileCard } from "../components/Cards";
+import { EditProfile } from "../components/Forms";
 
 function ProfilePage() {
   const [isClicked, setIsClicked] = useState(false);
@@ -58,129 +60,21 @@ function ProfilePage() {
     setIsClicked(!isClicked);
   };
 
-  const handleOnSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.put(
-        `http://localhost:4000/customer/edit?customer_id=10`,
-        userInfo
-      );
-
-      console.log("Update successfully ", response);
-    } catch (error) {
-      console.log(error);
-    }
-    setIsClicked(!isClicked);
-    console.log("Submit", userInfo);
-  };
-
   return (
     <main className="w-full h-screen flex flex-col items-center">
       <NavBar />
       <section className="flex flex-col w-full items-center max-w-[1400px]">
         {isClicked ? (
-          <section className="bg-[#FDFDFA] w-full min-w-[930px] rounded-2xl shadow-lg px-32 py-14 mt-14">
-            <form onSubmit={handleOnSubmit} className=" grid grid-cols-2">
-              <label
-                className="hover:cursor-pointer w-[300px] h-[300px] bg-amber-800 rounded-[35px] text-center"
-                htmlFor="profile-image"
-              >
-                Choose Image
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                // onChange={handleImageChange}
-                id="profile-image"
-                hidden
-              />
-              <section className="flex">
-                <div className="flex flex-col gap-y-7 min-w-[120px] font-bold font-lato mt-1">
-                  <label htmlFor="username">Username </label>
-                  <label htmlFor="firstName">First Name </label>
-                  <label htmlFor="lastName">Last Name </label>
-                  <label htmlFor="birthday">Birthday </label>
-                  <label htmlFor="tel">Tel </label>
-                  <label htmlFor="email">Email </label>
-                  <label htmlFor="allergy">Allergy </label>
-                </div>
-                <div className="flex flex-col gap-y-5 ">
-                  <input
-                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
-                    type="text"
-                    name="username"
-                    value={userInfo.username}
-                    onChange={handleChange}
-                  />
-                  <input
-                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
-                    type="text"
-                    name="firstName"
-                    id="firstName"
-                    value={userInfo.firstName}
-                    onChange={handleChange}
-                  />
-                  <input
-                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    value={userInfo.lastName}
-                    onChange={handleChange}
-                  />
-                  <input
-                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
-                    type="date"
-                    name="birthday"
-                    id="birthday"
-                    value={userInfo.birthday}
-                    onChange={handleChange}
-                  />
-                  <input
-                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
-                    type="text"
-                    name="tel"
-                    id="tel"
-                    value={userInfo.tel}
-                    onChange={handleChange}
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
-                    value={userInfo.email}
-                    onChange={handleChange}
-                  />
-                  <input
-                    className="bg-gray-100 rounded-md px-3 py-1 min-w-[300px]"
-                    type="text"
-                    name="allergy"
-                    id="allergy"
-                    value={userInfo.allergy}
-                    onChange={handleChange}
-                  />
-                </div>
-              </section>
-              <div className="absolute font-bold right-0 bottom-[-150px] flex gap-x-2">
-                <button
-                  className="bg-[#3D3D3D] text-white shadow-xl py-2 px-8 rounded-full"
-                  onClick={() => setIsClicked(!isClicked)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="bg-white shadow-xl py-2 px-8 rounded-full "
-                  type="submit"
-                >
-                  SAVE
-                </button>
-              </div>
-            </form>
-          </section>
+          <EditProfile
+            current_username={userInfo?.username}
+            current_firstName={userInfo?.firstName}
+            current_lastName={userInfo?.lastName}
+            current_birthday={userInfo?.birthday}
+            current_email={userInfo?.email}
+            current_allergy={userInfo?.allergy}
+          />
         ) : (
-          <section className="bg-[#FDFDFA] flex justify-between w-full min-w-[930px] rounded-2xl shadow-2xl mt-24">
+          <ProfileCard>
             <section className="flex flex-col items-center">
               <img
                 className="min-w-[620px] min-h-[620px] rounded-l-2xl"
@@ -214,7 +108,7 @@ function ProfilePage() {
                 </div>
               </div>
             </section>
-          </section>
+          </ProfileCard>
         )}
         {isClicked ? null : (
           <button
@@ -228,6 +122,5 @@ function ProfilePage() {
     </main>
   );
 }
-// grid grid-cols-2 bg-orange-500
 
 export default ProfilePage;
