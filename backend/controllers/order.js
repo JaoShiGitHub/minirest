@@ -1,7 +1,7 @@
 import { pool } from "../utils/db.js";
 
 const orderHistory = async (req, res) => {
-  const { customer_id } = req.query;
+  const customer_id = req.customer.id;
 
   try {
     const data = await pool.query(
@@ -9,6 +9,13 @@ const orderHistory = async (req, res) => {
       [customer_id]
     );
     const arrOrderId = data.rows.map((obj) => obj["order_id"]);
+
+    if (arrOrderId.length === 0) {
+      return res.status(200).json({
+        message: "No orders found",
+        orderItems: [],
+      });
+    }
 
     const idAndStatus = data.rows.map((obj) => ({
       order_id: obj["order_id"],
@@ -51,9 +58,9 @@ const orderHistory = async (req, res) => {
       return newDetails;
     });
 
-    const filteredOrdered = orderDetails.filter(
-      (order) => Object.keys(order).length > 0
-    );
+    // const filteredOrdered = orderDetails.filter(
+    //   (order) => Object.keys(order).length > 0
+    // );
 
     return res
       .status(200)
