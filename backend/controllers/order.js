@@ -66,7 +66,9 @@ const orderHistory = async (req, res) => {
       .status(200)
       .json({ message: "Order history fetched successfully", orderItems });
   } catch (error) {
-    return res.json({ error: error });
+    return res.json({
+      message: `Failed to fetch order history: ${error.message}`,
+    });
   }
 };
 

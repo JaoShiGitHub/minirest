@@ -21,7 +21,9 @@ const authUser = (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error(error);
+    return res.json({
+      message: `Failed to verify token: ${error.message}`,
+    });
   }
 };
 

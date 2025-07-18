@@ -112,7 +112,7 @@ const customerAddOrder = async (req, res) => {
 
     return res.status(200).json({ message: "Order has been created" });
   } catch (error) {
-    return res.json({ error: error });
+    return res.json({ message: `Failed to add new order: ${error.message}` });
   }
 };
 
@@ -137,7 +137,9 @@ const customerEditInfo = async (req, res) => {
     );
     return res.json({ message: "Customer info has been updated" });
   } catch (error) {
-    return res.json({ error: error });
+    return res.json({
+      message: `Failed to edit customer info: ${error.message}`,
+    });
   }
 };
 
@@ -153,7 +155,9 @@ const customerInfo = async (req, res) => {
       data: info.rows[0],
     });
   } catch (error) {
-    console.log("Error: ", error);
+    return res.json({
+      message: `Failed to get customer info: ${error.message}`,
+    });
   }
 };
 

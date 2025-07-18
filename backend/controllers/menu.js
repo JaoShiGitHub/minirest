@@ -29,7 +29,7 @@ const insertMenu = async (req, res) => {
     );
     return res.status(200).json({ message: "Insert Menu Successfully" });
   } catch (error) {
-    return res.json({ error: error });
+    return res.json({ message: error.message });
   }
 };
 
