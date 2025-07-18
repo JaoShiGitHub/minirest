@@ -53,7 +53,8 @@ function EditProfile(props) {
       );
 
       console.log("Update successfully ", response);
-      setEditProfileMessage("Update successfully");
+      // setEditProfileMessage("Update successfully");
+      setIsClicked(false);
     } catch (error) {
       console.log(error);
     }
