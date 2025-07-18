@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 const app = express();
 dotenv.config();
 // Routes
-// import admin from "./routers/admin_routes";
 import menu from "./routers/menu_routes.js";
 import customer from "./routers/customer_routes.js";
 
