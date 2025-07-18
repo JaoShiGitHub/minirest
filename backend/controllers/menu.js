@@ -3,31 +3,31 @@ import { pool } from "../utils/db.js";
 const getMenu = async (req, res) => {
   try {
     const data = await pool.query("SELECT * FROM menu");
-    if (data.status === 404) {
-      throw new Error("Menu not found");
+
+    if (data.rows.length === 0) {
+      return res.status(404).json({ message: "Menu not found" });
     }
 
     return res.status(200).json({
       message: "Menu fetched successfully",
-      data: data,
+      data: data.rows,
     });
   } catch (error) {
-    if (error.message === "Menu not found") {
-      return res.status(404).json({ message: error.message });
-    }
-    console.error("Database Error: ", error);
+    return res.status(500).json({ message: error.message });
   }
 };
 
 // Insert menu -> For admin
 const insertMenu = async (req, res) => {
-  const { name, price } = req.body;
+  const { name, price, details, ingredients, image } = req.body;
+  const imageBuffer = Buffer.from(image.split(",")[1], "base64");
+
   try {
-    await pool.query(`INSERT INTO menu (name, price) VALUES ($1, $2)`, [
-      name,
-      price,
-    ]);
-    return res.status(200).json({ message: "Insert Successfully" });
+    await pool.query(
+      `INSERT INTO menu (name, price, details, ingredients, image) VALUES ($1, $2, $3, $4, $5)`,
+      [name, price, details, ingredients, imageBuffer]
+    );
+    return res.status(200).json({ message: "Insert Menu Successfully" });
   } catch (error) {
     return res.json({ error: error });
   }
