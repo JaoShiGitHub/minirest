@@ -3,24 +3,6 @@ import { ProfileCard } from "./Cards";
 import axios from "axios";
 import { useEditProfile } from "../pages/ProfilePage";
 
-const FormLabel = (props) => {
-  const { name, label, value, type, placeholder, handleOnChange } = props;
-  return (
-    <div className="flex flex-col gap-2">
-      <label className="font-bold">{label}:</label>
-      <input
-        id={name}
-        name={name}
-        value={value}
-        type={type}
-        placeholder={placeholder}
-        onChange={handleOnChange}
-        className="border rounded-md p-2  min-w-[280px] shadow-sm"
-      />
-    </div>
-  );
-};
-
 function EditProfile(props) {
   const { setIsClicked } = useEditProfile();
   const {
@@ -43,7 +25,7 @@ function EditProfile(props) {
   //   other states
   const [previewImage, setPreviewImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
-  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [editProfileMessage, setEditProfileMessage] = useState("");
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -52,13 +34,23 @@ function EditProfile(props) {
     try {
       const response = await axios.put(
         "http://localhost:4000/customer/edit",
-        { username, firstName, lastName, birthday, email, allergy, image },
+        {
+          username,
+          firstName,
+          lastName,
+          birthday,
+          email,
+          allergy,
+          image,
+          location,
+        },
         {
           withCredentials: true,
         }
       );
 
       console.log("Update successfully ", response);
+      setEditProfileMessage("Update successfully");
     } catch (error) {
       console.log(error);
     }
@@ -80,8 +72,13 @@ function EditProfile(props) {
     }
   };
 
+  const formatDate = (isoString) => {
+    return isoString?.split("T")[0]; // "1992-08-07"
+  };
+
   return (
     <section className="flex flex-col">
+      {editProfileMessage ? <p>{editProfileMessage}</p> : null}
       <ProfileCard>
         <img
           src={previewImage}
@@ -89,6 +86,7 @@ function EditProfile(props) {
           className="min-w-[500px] max-h-[500px] rounded-2xl ml-20 shadow-lg"
         />
         <form
+          id="edit-profile"
           onSubmit={handleOnSubmit}
           className="w-full flex items-start text-lg"
         >
@@ -120,7 +118,7 @@ function EditProfile(props) {
             <FormLabel
               name="birthday"
               label="Birthday date"
-              value={birthday}
+              value={formatDate(birthday)}
               type="date"
               placeholder="Birthday"
               handleOnChange={(e) => setBirthday(e.target.value)}
@@ -169,12 +167,34 @@ function EditProfile(props) {
         >
           Cancel
         </button>
-        <button className="bg-white hover:bg-amber-700 hover:text-yellow-50 shadow-lg py-2 px-2 rounded-full min-w-32 ml-7">
+        <button
+          className="bg-white hover:bg-amber-700 hover:text-yellow-50 shadow-lg py-2 px-2 rounded-full min-w-32 ml-7"
+          type="submit"
+          form="edit-profile"
+        >
           Save
         </button>
       </div>
     </section>
   );
 }
+
+const FormLabel = (props) => {
+  const { name, label, value, type, placeholder, handleOnChange } = props;
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="font-bold">{label}:</label>
+      <input
+        id={name}
+        name={name}
+        value={value}
+        type={type}
+        placeholder={placeholder}
+        onChange={handleOnChange}
+        className="border rounded-md p-2  min-w-[280px] shadow-sm"
+      />
+    </div>
+  );
+};
 
 export { EditProfile };
