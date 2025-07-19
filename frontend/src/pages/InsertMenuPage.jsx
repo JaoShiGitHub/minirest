@@ -1,6 +1,7 @@
 import { FormLabel } from "../components/Forms";
 import NavBar from "../components/NavBar";
 import { useState } from "react";
+import axios from "axios";
 
 function InsertMenu() {
   const [name, setName] = useState("");
@@ -26,6 +27,20 @@ function InsertMenu() {
     }
   };
 
+  const handleOnSubmit = async () => {
+    try {
+      const image = productImage;
+      const response = await axios.post(
+        "http://localhost:4000/menu/insert",
+        { name, price, details, ingredients, image },
+        { withCredentials: true }
+      );
+      console.log("Insert successfully ", response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <NavBar />
@@ -36,7 +51,10 @@ function InsertMenu() {
           alt={name}
           className=" h-[450px] rounded-xl"
         />
-        <form className="flex flex-col gap-4 w-full max-w-md p-6">
+        <form
+          className="flex flex-col gap-4 w-full max-w-md p-6"
+          onSubmit={handleOnSubmit}
+        >
           <FormLabel
             name="name"
             label="Name"

@@ -20,7 +20,12 @@ const getMenu = async (req, res) => {
 // Insert menu -> For admin
 const insertMenu = async (req, res) => {
   const { name, price, details, ingredients, image } = req.body;
-  const imageBuffer = Buffer.from(image.split(",")[1], "base64");
+
+  let imageBuffer = null;
+
+  if (image) {
+    imageBuffer = Buffer.from(image.split(",")[1], "base64");
+  }
 
   try {
     await pool.query(
