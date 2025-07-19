@@ -8,6 +8,7 @@ import OrderReceivedPage from "./OrderReceivedPage";
 import ViewOrder from "./ViewOrder";
 import { HistoryPage } from "./HistoryPage";
 import ProfilePage from "./ProfilePage";
+import InsertMenu from "./InsertMenuPage";
 
 function AuthenticatedApp() {
   return (
@@ -21,6 +22,7 @@ function AuthenticatedApp() {
         <Route path="/view-order" element={<ViewOrder />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/not-found" element={<NotFoundPage />} />
+        <Route path="/insert-menu" element={<InsertMenu />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -209,4 +209,4 @@ const FormLabel = (props) => {
   );
 };
 
-export { EditProfile };
+export { EditProfile, FormLabel };
