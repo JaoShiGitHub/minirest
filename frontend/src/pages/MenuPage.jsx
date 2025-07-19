@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import ConfirmOrder from "../components/ConfirmOrder";
 
 const menuBarStyle =
   "bg-white px-6 py-2 rounded-full shadow-lg hover:bg-orange-300 transition-colors duration-300";
@@ -10,8 +11,9 @@ function MenuPage() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [orderNowBtn, setOrderNowBtn] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [isSelectBtn, setIsSelectBtn] = useState(false);
+  const [confirmOrderComponent, setConfirmOrderComponent] = useState(false);
 
   useEffect(() => {
     getMenu();
@@ -37,15 +39,6 @@ function MenuPage() {
     }
   };
 
-  // const handleOnSubmit = (e) => {
-  //   e.preventDefault();
-  //   localStorage.setItem("orders", selectedMenu);
-  //   console.log(selectedMenu);
-
-  //   setSelectedMenu({});
-  //   navigate("/order-now");
-  // };
-
   const handleOnClickAddItem = (menu_id) => {
     const updatedData = data.map((item) => {
       if (item.menu_id === menu_id) {
@@ -68,11 +61,15 @@ function MenuPage() {
 
   useEffect(() => {
     const hasCountMoreThanZero = data.some((item) => item.count > 0);
-    setOrderNowBtn(hasCountMoreThanZero);
+
+    if (hasCountMoreThanZero) {
+      setSelectedItems(data.filter((item) => item.count > 0));
+      setOrderNowBtn(hasCountMoreThanZero);
+    }
   }, [data]);
 
   return (
-    <main className="">
+    <main>
       <NavBar />
       <div className="flex justify-center flex-col items-center">
         <section className="flex w-full justify-between items-center px-48">
@@ -91,7 +88,7 @@ function MenuPage() {
             {orderNowBtn && (
               <button
                 className={menuBarStyle}
-                onClick={() => setIsSelectBtn(true)}
+                onClick={() => setConfirmOrderComponent(true)}
               >
                 Order Now
               </button>
@@ -141,6 +138,7 @@ function MenuPage() {
           })}
         </ul>
       </div>
+      {confirmOrderComponent && <ConfirmOrder items={selectedItems} />}
     </main>
   );
 }
