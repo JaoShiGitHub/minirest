@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 
+const menuBarStyle =
+  "bg-white px-6 py-2 rounded-full shadow-lg hover:bg-orange-200 transition-colors duration-300";
+
 function MenuPage() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -42,33 +45,52 @@ function MenuPage() {
   };
 
   return (
-    <main className="h-screen">
+    <main className="">
       <NavBar />
-      <section className="flex justify-center flex-col items-center">
-        <h1 className="font-playfairDisplay font-bold text-4xl my-20">MENU</h1>
-        <div className="font-lato flex mb-20 justify-center items-center w-full max-w-[500px]">
+      <div className="flex justify-center flex-col items-center">
+        <section className="flex w-full justify-between items-center px-48">
+          <h1 className="font-playfairDisplay font-bold text-3xl my-20">
+            MENU
+          </h1>
+          <div className="flex gap-x-5 font-bold">
+            <button className={menuBarStyle}>Select Items</button>
+            <button className={menuBarStyle}> Filter Drink</button>
+          </div>
+        </section>
+
+        <section className="font-lato flex mb-20 justify-center items-center">
           {data.length > 0 ? (
             !orderStatus ? (
-              <div className="w-full flex flex-col gap-5">
+              <ul className="w-full flex flex-wrap gap-5 gap-x-10 max-w-[1544px] h-full justify-center font-lato ">
                 {data.map((menu) => {
                   return (
-                    <div
+                    <li
                       key={menu.menu_id}
-                      className="flex justify-between text-2xl"
+                      className="flex justify-between text-2xl flex-col items-center"
                     >
-                      <p className="font-bold">{menu.name}</p>
-                      <span className="font-">{menu.price} ฿</span>
-                    </div>
+                      <img
+                        className="w-full max-w-[300px] h-[360px] rounded-3xl"
+                        src={`data:image/jpeg;base64,${btoa(
+                          menu?.image?.data.reduce(
+                            (data, byte) => data + String.fromCharCode(byte),
+                            ""
+                          )
+                        )}`}
+                        alt={menu?.name}
+                      />
+                      <p className="font-bold text-xl mt-2">{menu.name}</p>
+                      <span className="text-base">{menu.price} ฿</span>
+                    </li>
                   );
                 })}
                 <br />
-                <button
+                {/* <button
                   className="font-bold bg-white  px-4 py-1 self-center rounded-full shadow-md"
                   onClick={() => setOrderStatus(!orderStatus)}
                 >
                   SELECT ITEMS
-                </button>
-              </div>
+                </button> */}
+              </ul>
             ) : (
               <form
                 onSubmit={handleOnSubmit}
@@ -106,8 +128,8 @@ function MenuPage() {
               </form>
             )
           ) : null}
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }

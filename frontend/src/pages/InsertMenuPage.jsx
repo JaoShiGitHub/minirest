@@ -46,13 +46,19 @@ function InsertMenu() {
       <NavBar />
       <p className="text-3xl font-bold my-10"> CREATE NEW PRODUCT</p>
       <section className="flex gap-x-20 items-center">
-        <img
-          src={previewImage || null}
-          alt={name}
-          className=" h-[450px] rounded-xl"
-        />
+        {previewImage ? (
+          <img
+            src={previewImage}
+            alt={name}
+            className=" h-[450px] rounded-xl"
+          />
+        ) : (
+          <div className="bg-orange-950 w-[450px] h-[450px] text-white font-bold rounded-xl flex items-center justify-center">
+            <span className="text-xl">Image</span>
+          </div>
+        )}
         <form
-          className="flex flex-col gap-4 w-full max-w-md p-6"
+          className="flex flex-col gap-4 w-full max-w-md p-6 min-w-[400px]"
           onSubmit={handleOnSubmit}
         >
           <FormLabel
