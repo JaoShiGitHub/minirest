@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 
 const menuBarStyle =
-  "bg-white px-6 py-2 rounded-full shadow-lg hover:bg-orange-200 transition-colors duration-300";
+  "bg-white px-6 py-2 rounded-full shadow-lg hover:bg-orange-300 transition-colors duration-300";
 
 function MenuPage() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [orderStatus, setOrderStatus] = useState(false);
+  const [orderNowBtn, setOrderNowBtn] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState([]);
   const [isSelectBtn, setIsSelectBtn] = useState(false);
 
@@ -37,21 +37,39 @@ function MenuPage() {
     }
   };
 
-  const handleCheckboxChange = (menu) => {
-    setSelectedMenu((prevMenu) => ({
-      ...prevMenu,
-      [menu.menu_id]: menu,
-    }));
+  // const handleOnSubmit = (e) => {
+  //   e.preventDefault();
+  //   localStorage.setItem("orders", selectedMenu);
+  //   console.log(selectedMenu);
+
+  //   setSelectedMenu({});
+  //   navigate("/order-now");
+  // };
+
+  const handleOnClickAddItem = (menu_id) => {
+    const updatedData = data.map((item) => {
+      if (item.menu_id === menu_id) {
+        return { ...item, count: item.count + 1 };
+      }
+      return item;
+    });
+    setData(updatedData);
   };
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    localStorage.setItem("orders", selectedMenu);
-    console.log(selectedMenu);
-
-    setSelectedMenu({});
-    navigate("/order-now");
+  const handleOnClickRemoveItem = (menu_id) => {
+    const updatedData = data.map((item) => {
+      if (item.menu_id === menu_id && item.count > 0) {
+        return { ...item, count: item.count - 1 };
+      }
+      return item;
+    });
+    setData(updatedData);
   };
+
+  useEffect(() => {
+    const hasCountMoreThanZero = data.some((item) => item.count > 0);
+    setOrderNowBtn(hasCountMoreThanZero);
+  }, [data]);
 
   return (
     <main className="">
@@ -62,12 +80,22 @@ function MenuPage() {
             MENU
           </h1>
           <div className="flex gap-x-5 font-bold">
-            <button
-              className={menuBarStyle}
-              onClick={() => setIsSelectBtn(true)}
-            >
-              Select Items
-            </button>
+            {isSelectBtn ? null : (
+              <button
+                className={menuBarStyle}
+                onClick={() => setIsSelectBtn(true)}
+              >
+                Select Items
+              </button>
+            )}
+            {orderNowBtn && (
+              <button
+                className={menuBarStyle}
+                onClick={() => setIsSelectBtn(true)}
+              >
+                Order Now
+              </button>
+            )}
             <button className={menuBarStyle}> Filter Drink</button>
           </div>
         </section>
@@ -89,17 +117,23 @@ function MenuPage() {
                   )}`}
                   alt={menu?.name}
                 />
-                {isSelectBtn ? (
+                {isSelectBtn && (
                   <div className="flex gap-x-4 items-center mt-4 mb-1">
-                    <button className="bg-white shadow-xl rounded-full px-6 hover:bg-orange-300">
+                    <button
+                      className="bg-white shadow-xl rounded-full px-6 hover:bg-orange-300"
+                      onClick={() => handleOnClickRemoveItem(menu.menu_id)}
+                    >
                       -
                     </button>
                     <span className="text-xl">{menu.count}</span>
-                    <button className="bg-white shadow-xl rounded-full px-6 hover:bg-orange-300">
+                    <button
+                      className="bg-white shadow-xl rounded-full px-6 hover:bg-orange-300"
+                      onClick={() => handleOnClickAddItem(menu.menu_id)}
+                    >
                       +
                     </button>
                   </div>
-                ) : null}
+                )}
                 <p className="font-bold text-xl mt-2">{menu.name}</p>
                 <span className="text-base">{menu.price} ฿</span>
               </li>
