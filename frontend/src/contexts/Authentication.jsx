@@ -42,8 +42,24 @@ function AuthProvider(props) {
     }
   };
 
+  const logout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/customer/logout",
+        { withCredentials: true }
+      );
+      setIsAuthenticated(false);
+      navigate("/not-found");
+      console.log("Logout successful: ", response.data);
+    } catch (error) {
+      console.log("Logout error: ", error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser, isAuthenticated, login }}>
+    <AuthContext.Provider
+      value={{ user, setUser, isAuthenticated, login, logout }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

@@ -20,6 +20,7 @@ function AuthenticatedApp() {
         <Route path="/order-received" element={<OrderReceivedPage />} />
         <Route path="/view-order" element={<ViewOrder />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/not-found" element={<NotFoundPage />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

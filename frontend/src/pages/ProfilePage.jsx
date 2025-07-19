@@ -5,10 +5,12 @@ import NavBar from "../components/NavBar";
 import { ProfileCard } from "../components/Cards";
 import { EditProfile } from "../components/Forms";
 import { WhiteButton } from "../components/Buttons";
+import { useAuth } from "../contexts/Authentication";
 
 const EditProfileContext = React.createContext();
 
 function ProfilePage() {
+  const { logout } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
   const [userInfo, setUserInfo] = useState({
     username: "",
@@ -53,13 +55,10 @@ function ProfilePage() {
 
   const handleOnClickLogout = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/customer/logout",
-        { withCredentials: true }
-      );
-      console.log("Logout successful: ", response.data);
+      await logout();
+      console.log("Logout successful");
     } catch (error) {
-      console.log("Logout error: ", error);
+      console.error("Logout failed:", error);
     }
   };
 
