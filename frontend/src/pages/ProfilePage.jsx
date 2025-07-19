@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import { ProfileCard } from "../components/Cards";
 import { EditProfile } from "../components/Forms";
+import { WhiteButton } from "../components/Buttons";
 
 const EditProfileContext = React.createContext();
 
@@ -50,12 +51,16 @@ function ProfilePage() {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserInfo((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleOnClickLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/customer/logout",
+        { withCredentials: true }
+      );
+      console.log("Logout successful: ", response.data);
+    } catch (error) {
+      console.log("Logout error: ", error);
+    }
   };
 
   const handleOnClickEditBtn = () => {
@@ -119,15 +124,10 @@ function ProfilePage() {
           )}
           {isClicked ? null : (
             <div className="self-end flex mt-10 gap-x-10">
-              <button className="bg-white hover:bg-orange-200 shadow-lg px-11 py-3 rounded-full font-bold w-44">
-                Logout
-              </button>
-              <button
-                className="bg-white hover:bg-orange-200 shadow-lg px-11 py-3 rounded-full font-bold w-44"
-                onClick={handleOnClickEditBtn}
-              >
+              <WhiteButton onClick={handleOnClickLogout}>Logout</WhiteButton>
+              <WhiteButton onClick={handleOnClickEditBtn}>
                 Edit Profile
-              </button>
+              </WhiteButton>
             </div>
           )}
         </section>

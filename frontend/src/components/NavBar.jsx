@@ -1,4 +1,4 @@
-import ButtonHomePage from "./ButtonHomePage";
+import { ButtonHomePage } from "./Buttons";
 
 function NavBar() {
   const pages = ["Home", "Profile", "Menu", "History"];

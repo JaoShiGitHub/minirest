@@ -1,4 +1,4 @@
-import ButtonHomePage from "../components/ButtonHomePage";
+import { ButtonHomePage } from "../components/Buttons";
 
 function HomePage() {
   return (
