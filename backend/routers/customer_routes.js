@@ -12,6 +12,7 @@ import {
   customerEditInfo,
   customerInfo,
   customerLogin,
+  customerLogout,
 } from "../controllers/customers.js";
 
 const customer = Router();
@@ -20,6 +21,7 @@ const customer = Router();
 customer.post("/login", validateLoginCustomer, customerLogin);
 customer.post("/register", validateRegisterCustomer, customerRegister);
 customer.post("/order", authUser, customerAddOrder);
+customer.post("/logout", authUser, customerLogout);
 // GET
 customer.get("/info", authUser, customerInfo);
 // EDIT

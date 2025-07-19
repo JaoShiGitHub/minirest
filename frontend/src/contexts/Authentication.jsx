@@ -11,9 +11,10 @@ function AuthProvider(props) {
 
   const checkAuth = async () => {
     try {
-      await axios.get(`http://localhost:4000/customer/info`, {
+      const data = await axios.get(`http://localhost:4000/customer/info`, {
         withCredentials: true,
       });
+      setUser(data?.data?.user_data);
       setIsAuthenticated(true);
     } catch {
       setIsAuthenticated(false);

@@ -48,6 +48,16 @@ const customerLogin = async (req, res) => {
   return res.status(200).json({ message: "Login Successfully", token });
 };
 
+// Logout
+const customerLogout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+  });
+  res.json({ message: "Logged out" });
+};
+
 // Register
 const customerRegister = async (req, res) => {
   const { username, firstName, lastName, tel, email, birthday, allergy } =
@@ -168,4 +178,5 @@ export {
   customerEditInfo,
   customerInfo,
   customerLogin,
+  customerLogout,
 };

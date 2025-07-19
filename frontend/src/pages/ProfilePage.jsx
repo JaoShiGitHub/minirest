@@ -118,12 +118,17 @@ function ProfilePage() {
             </ProfileCard>
           )}
           {isClicked ? null : (
-            <button
-              className="self-end bg-white hover:bg-orange-200 shadow-lg px-11 py-3 rounded-[50px] font-bold mt-10"
-              onClick={handleOnClickEditBtn}
-            >
-              Edit Profile
-            </button>
+            <div className="self-end flex mt-10 gap-x-10">
+              <button className="bg-white hover:bg-orange-200 shadow-lg px-11 py-3 rounded-full font-bold w-44">
+                Logout
+              </button>
+              <button
+                className="bg-white hover:bg-orange-200 shadow-lg px-11 py-3 rounded-full font-bold w-44"
+                onClick={handleOnClickEditBtn}
+              >
+                Edit Profile
+              </button>
+            </div>
           )}
         </section>
       </main>
