@@ -1,5 +1,5 @@
 function ConfirmOrder(props) {
-  const { items } = props;
+  const { items, closeForm } = props;
 
   const handleConfirm = async () => {};
   console.log(items);
@@ -8,7 +8,13 @@ function ConfirmOrder(props) {
   const order_items = items.reduce((acc, item) => acc + item.count, 0);
 
   return (
-    <section className="tracking-wide fixed flex-col overflow-hidden gap-y-5 inset-0 bg-[hsla(0,0%,10%,0.6)] flex items-center justify-center w-screen h-screen">
+    <section className="tracking-wide fixed flex-col gap-y-5 overflow-hidden inset-0 bg-[hsla(0,0%,10%,0.6)] flex items-center justify-center w-screen h-screen">
+      <button
+        className="material-symbols-outlined self-end mr-56 bg-white hover:bg-orange-300 shadow-lg p-3 rounded-full"
+        onClick={() => closeForm(false)}
+      >
+        close
+      </button>
       <div className="bg-white min-w-[450px] rounded-2xl p-10">
         <h2 className="text-2xl font-bold">
           {order_items} {order_items > 1 ? "Items" : "Item"}
@@ -33,7 +39,6 @@ function ConfirmOrder(props) {
               id="dining"
               name="dining"
               className="appearance-none bg-neutral-200 shadow-lg w-full py-1 px-4 mb-4 mt-2 rounded-lg outline-none hover:cursor-pointer"
-              // className="w-full hover:cursor-pointer px-4 py-1 rounded-lg  pr-10 text-gray-700  focus:outline-none"
             >
               <option value="dine-in">Dine In</option>
               <option value="takeaway">Takeaway</option>
@@ -46,7 +51,7 @@ function ConfirmOrder(props) {
           <textarea className="min-h-40 w-full px-4 py-3 border border-slate-300 rounded-lg shadow-lg outline-none"></textarea>
         </div>
       </div>
-      <button className=" font-medium hover:bg-orange-800 bg-orange-200 hover:text-amber-50 text-black min-w-[450px] rounded-xl text-xl  py-2">
+      <button className="font-medium hover:bg-orange-800 bg-orange-200 hover:text-amber-50 text-black min-w-[450px] rounded-xl text-xl  py-2">
         Confirm Order
       </button>
     </section>

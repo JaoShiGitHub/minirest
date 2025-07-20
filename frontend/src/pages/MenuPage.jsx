@@ -138,7 +138,12 @@ function MenuPage() {
           })}
         </ul>
       </div>
-      {confirmOrderComponent && <ConfirmOrder items={selectedItems} />}
+      {confirmOrderComponent && (
+        <ConfirmOrder
+          closeForm={setConfirmOrderComponent}
+          items={selectedItems}
+        />
+      )}
     </main>
   );
 }
