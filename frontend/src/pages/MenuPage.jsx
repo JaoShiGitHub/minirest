@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import ConfirmOrder from "../components/ConfirmOrder";
+import { ConfirmOrder, useConfirmOrder } from "../components/ConfirmOrder";
 
 const menuBarStyle =
   "bg-white px-6 py-2 rounded-full shadow-lg hover:bg-orange-300 transition-colors duration-300";
