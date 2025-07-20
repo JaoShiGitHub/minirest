@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { ConfirmOrder, useConfirmOrder } from "../components/ConfirmOrder";
+import ConfirmOrder from "../components/ConfirmOrder";
 
 const menuBarStyle =
   "bg-white px-6 py-2 rounded-full shadow-lg hover:bg-orange-300 transition-colors duration-300";
@@ -14,6 +14,7 @@ function MenuPage() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [isSelectBtn, setIsSelectBtn] = useState(false);
   const [confirmOrderComponent, setConfirmOrderComponent] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   useEffect(() => {
     getMenu();
@@ -68,6 +69,14 @@ function MenuPage() {
     }
   }, [data]);
 
+  if (orderSuccess) {
+    setOrderNowBtn(false);
+    setIsSelectBtn(false);
+    setOrderSuccess(false);
+    setSelectedItems([]);
+    setData((prevData) => prevData.map((item) => ({ ...item, count: 0 })));
+  }
+
   return (
     <main>
       <NavBar />
@@ -93,7 +102,7 @@ function MenuPage() {
                 Order Now
               </button>
             )}
-            <button className={menuBarStyle}> Filter Drink</button>
+            {/* <button className={menuBarStyle}> Filter Drink</button> */}
           </div>
         </section>
 
@@ -142,6 +151,9 @@ function MenuPage() {
         <ConfirmOrder
           closeForm={setConfirmOrderComponent}
           items={selectedItems}
+          orderSuccess={orderSuccess}
+          setOrderSuccess={setOrderSuccess}
+          setConfirmOrderComponent={setConfirmOrderComponent}
         />
       )}
     </main>
