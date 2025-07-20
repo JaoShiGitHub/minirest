@@ -1,11 +1,31 @@
+import { useState } from "react";
+import axios from "axios";
+
 function ConfirmOrder(props) {
   const { items, closeForm } = props;
-
-  const handleConfirm = async () => {};
-  console.log(items);
+  const [note, setNote] = useState("");
+  const [diningStatus, setDiningStatus] = useState("");
 
   const total = items.reduce((acc, item) => acc + item.price * item.count, 0);
   const order_items = items.reduce((acc, item) => acc + item.count, 0);
+
+  console.log(items);
+
+  const handleSubmitOrder = async (e) => {
+    e.preventDefault();
+
+    const orders = items;
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/customer/order",
+        { note, diningStatus, orders },
+        { withCredentials: true }
+      );
+      console.log("Order submitted successfully:", response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="tracking-wide fixed flex-col gap-y-5 overflow-hidden inset-0 bg-[hsla(0,0%,10%,0.6)] flex items-center justify-center w-screen h-screen">
@@ -29,15 +49,19 @@ function ConfirmOrder(props) {
               <span>{item.price} ฿</span>
             </li>
           ))}
+
           <div className="flex justify-between mt-4">
             <b>Total</b>
             <span>{total}</span>
           </div>
+        </ul>
+        <form id="confirm-order-form" onSubmit={handleSubmitOrder}>
           <label for="dining" className="flex flex-col items-center">
             <p className=""> Dining Option:</p>
             <select
               id="dining"
-              name="dining"
+              value={diningStatus}
+              onChange={(e) => setDiningStatus(e.target.value)}
               className="appearance-none bg-neutral-200 shadow-lg w-full py-1 px-4 mb-4 mt-2 rounded-lg outline-none hover:cursor-pointer"
             >
               <option value="dine-in">Dine In</option>
@@ -45,13 +69,22 @@ function ConfirmOrder(props) {
               <option value="delivery">Delivery</option>
             </select>
           </label>
-        </ul>
-        <div className="flex items-center flex-col gap-y-2">
-          <p>Note to us:</p>
-          <textarea className="min-h-40 w-full px-4 py-3 border border-slate-300 rounded-lg shadow-lg outline-none"></textarea>
-        </div>
+          <label className="flex items-center flex-col gap-y-2">
+            <p>Message to us:</p>
+            <textarea
+              className="min-h-40 w-full px-4 py-3 border border-slate-300 rounded-lg shadow-lg outline-none"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="Type your message here..."
+            ></textarea>
+          </label>
+        </form>
       </div>
-      <button className="font-medium hover:bg-orange-800 bg-orange-200 hover:text-amber-50 text-black min-w-[450px] rounded-xl text-xl  py-2">
+      <button
+        className="font-medium hover:bg-orange-800 bg-orange-200 hover:text-amber-50 text-black min-w-[450px] rounded-xl text-xl  py-2"
+        type="submit"
+        form="confirm-order-form"
+      >
         Confirm Order
       </button>
     </section>
