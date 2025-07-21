@@ -58,13 +58,13 @@ const orderHistory = async (req, res) => {
       return newDetails;
     });
 
-    // const filteredOrdered = orderDetails.filter(
-    //   (order) => Object.keys(order).length > 0
-    // );
+    const filteredOrdered = orderDetails.filter(
+      (order) => Object.keys(order).length > 0
+    );
 
     return res
       .status(200)
-      .json({ message: "Order history fetched successfully", orderItems });
+      .json({ message: "Order history fetched successfully", filteredOrdered });
   } catch (error) {
     return res.json({
       message: `Failed to fetch order history: ${error.message}`,

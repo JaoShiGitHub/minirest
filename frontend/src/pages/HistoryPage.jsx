@@ -3,14 +3,13 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import FullHistory from "../components/FullHistory";
 
-// import { useNavigate } from "react-router-dom";
-
 export const HistoryDataContext = React.createContext();
 
 function HistoryPage() {
   const [orders, setOrders] = useState([]);
   const [isOpened, setIsOpened] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
+  const [countItems, setCountItems] = useState(0);
   // const [deletedOrders, setDeletedOrders] = useState(
   //   JSON.parse(localStorage.getItem("deletedOrders")) || []
   // );
@@ -36,10 +35,9 @@ function HistoryPage() {
       const orders = await axios.get("http://localhost:4000/order/history", {
         withCredentials: true,
       });
-      console.log(orders?.data);
+      console.log(orders?.data?.filteredOrdered);
       // console.log(orders?.data?.filteredOrdered);
-
-      // setOrders(orders?.data?.filteredOrdered);
+      setOrders(orders?.data?.filteredOrdered);
     } catch (err) {
       alert(err.response.data.msg);
     }
@@ -81,7 +79,7 @@ function HistoryPage() {
             return (
               <li
                 className="bg-white w-fit mb-7 py-7 pl-8 flex flex-col gap-y-2  rounded-xl shadow-xl"
-                key={item.order_id}
+                key={item?.order_id}
               >
                 <span className="font-bold text-2xl mb-1">{item.order_id}</span>
                 <div className="grid grid-cols-2 gap-x-9 gap-y-1 pl-7 ">
