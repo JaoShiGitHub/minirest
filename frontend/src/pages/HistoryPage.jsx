@@ -65,20 +65,18 @@ function HistoryPage() {
   };
 
   return (
-    <div className="h-full font-lato">
+    <div className="h-full font-lato flex flex-col items-center">
       <HistoryDataContext.Provider
         value={{ isOpened, setIsOpened, orderDetails, setOrderDetails }}
       >
         <NavBar />
-        <div className="my-20 px-28">
-          <h1 className="font-bold text-3xl">History</h1>
-        </div>
 
-        <ul className="grid grid-cols-3 justify-items-center px-40 pb-40">
+        <ul className="flex flex-wrap justify-evenly max-w-[1400px]">
+          <h1 className="font-bold text-3xl w-full my-20 px-10">History</h1>
           {orders.map((item) => {
             return (
               <li
-                className="bg-white w-fit mb-7 py-7 pl-8 flex flex-col gap-y-2  rounded-xl shadow-xl"
+                className="bg-white mb-7 py-7 pl-8 flex flex-col gap-y-2 rounded-xl shadow-xl max-w-[520px]"
                 key={item?.order_id}
               >
                 <span className="font-bold text-2xl mb-1">{item.order_id}</span>
@@ -114,6 +112,7 @@ function HistoryPage() {
             );
           })}
         </ul>
+
         {isOpened ? <FullHistory /> : null}
       </HistoryDataContext.Provider>
     </div>
