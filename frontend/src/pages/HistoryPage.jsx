@@ -37,7 +37,7 @@ function HistoryPage() {
       });
       console.log(orders?.data?.filteredOrdered);
       // console.log(orders?.data?.filteredOrdered);
-      setOrders(orders?.data?.filteredOrdered);
+      setOrders(orders?.data?.filteredOrdered || []);
     } catch (err) {
       alert(err.response.data.msg);
     }

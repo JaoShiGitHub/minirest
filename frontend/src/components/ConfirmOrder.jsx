@@ -5,7 +5,7 @@ function ConfirmOrder(props) {
   const { items, closeForm, orderSuccess, setOrderSuccess } = props;
 
   const [note, setNote] = useState("");
-  const [diningStatus, setDiningStatus] = useState("");
+  const [diningStatus, setDiningStatus] = useState("Dine In");
   const [resStatus, setResStatus] = useState(false);
 
   const total = items.reduce((acc, item) => acc + item.price * item.count, 0);
@@ -24,6 +24,7 @@ function ConfirmOrder(props) {
         { withCredentials: true }
       );
       setResStatus(true);
+      console.log("the order: ", orders);
 
       console.log("Order submitted successfully:", response.data);
     } catch (error) {
@@ -87,6 +88,7 @@ function ConfirmOrder(props) {
                   value={diningStatus}
                   onChange={(e) => setDiningStatus(e.target.value)}
                   className="appearance-none bg-neutral-200 shadow-lg w-full py-1 px-4 mb-4 mt-2 rounded-lg outline-none hover:cursor-pointer"
+                  required
                 >
                   <option value="dine-in">Dine In</option>
                   <option value="takeaway">Takeaway</option>

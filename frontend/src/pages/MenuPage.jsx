@@ -76,6 +76,7 @@ function MenuPage() {
     setSelectedItems([]);
     setData((prevData) => prevData.map((item) => ({ ...item, count: 0 })));
   }
+  console.log(selectedItems);
 
   return (
     <main>

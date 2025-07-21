@@ -114,8 +114,8 @@ const customerAddOrder = async (req, res) => {
 
     const orderQueries = orders.map((order) => {
       pool.query(
-        `INSERT INTO order_items (order_id, product_id ,product_name, product_price) VALUES ($1, $2, $3, $4)`,
-        [order_id, order.menu_id, order.name, order.price]
+        `INSERT INTO order_items (order_id, product_id ,product_name, product_price, amount) VALUES ($1, $2, $3, $4, $5)`,
+        [order_id, order.menu_id, order.name, order.price, order.count]
       );
     });
 

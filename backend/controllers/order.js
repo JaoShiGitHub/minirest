@@ -9,6 +9,17 @@ const orderHistory = async (req, res) => {
       [customer_id]
     );
     const arrOrderId = data.rows.map((obj) => obj["order_id"]);
+    // console.log("check data: ", data.rows);
+    //   {
+    //   id: 53,
+    //   order_id: 'dobsr9cefff',
+    //   customer_id: 11,
+    //   status: 'Order Placed',
+    //   order_date: 2025-07-21T05:56:42.723Z,
+    //   description: '5% Sweet please. Thanks! 🧡 ',
+    //   dining_status: 'takeaway',
+    //   payment_status: 'Pending'
+    // },
 
     if (arrOrderId.length === 0) {
       return res.status(200).json({
@@ -22,8 +33,8 @@ const orderHistory = async (req, res) => {
       status: obj["status"],
       time: obj["order_date"],
       description: obj["description"],
-      dining_status: ["dining_status"],
-      payment_status: ["delivery"],
+      dining_status: obj["dining_status"],
+      payment_status: obj["payment_status"],
     }));
 
     const placeholders = arrOrderId
@@ -34,6 +45,7 @@ const orderHistory = async (req, res) => {
       `SELECT * FROM order_items WHERE order_id IN (${placeholders})`,
       arrOrderId
     );
+    console.log("check items: ", orderItems.rows);
 
     // I use this code because I want to group the items that have the same order_id together
     // Otherwise they'll come separately

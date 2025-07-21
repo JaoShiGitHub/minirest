@@ -18,6 +18,7 @@ function FullHistory() {
     );
   };
 
+  const itemsCount = orderDetails?.items.reduce((acc, item) => acc);
   const orders = Object.fromEntries(Object.entries(orderDetails).reverse());
 
   return (
@@ -33,22 +34,22 @@ function FullHistory() {
               title="Date: "
               detail={new Date(orders?.time).toLocaleDateString()}
             />
-            <Details title="Dining: " detail={orders?.status} />
-            <Details title="Payment: " detail={orders?.status} />
+            <Details title="Dining: " detail={orders?.dining_status} />
+            <Details title="Payment: " detail={orders?.payment_status} />
             <Details
               title="Request: "
               detail={orders?.description === "" ? "-" : orders?.description}
             />
-
-            <p>Dining : Delivery</p>
-            <p>Payment: mobile babanking </p>
           </div>
           <hr className="my-8" />
-          <b className="text-lg">3 Items</b>
+          <b className="text-lg">{orders.items.length} Items</b>
           <div className="flex flex-col gap-2 mt-4 mb-6">
             {orders?.items?.map((item) => (
               <div key={item?.id} className="flex justify-between px-10">
-                <span>{item?.product_name}</span>
+                <div className="flex gap-x-2">
+                  <span> {item?.amount}</span>
+                  <span>{item?.product_name}</span>
+                </div>
                 <span>{item?.product_price} ฿</span>
               </div>
             ))}
