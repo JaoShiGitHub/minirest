@@ -95,7 +95,20 @@ const customerAddOrder = async (req, res) => {
   const customer_id = req.customer.id;
   const payment_status = "Pending";
   const status = "Order Placed";
-  const order_date = new Date().toISOString();
+  const now = new Date();
+  const order_date =
+    now.getFullYear() +
+    "-" +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(now.getDate()).padStart(2, "0") +
+    " " +
+    String(now.getHours()).padStart(2, "0") +
+    ":" +
+    String(now.getMinutes()).padStart(2, "0") +
+    ":" +
+    String(now.getSeconds()).padStart(2, "0");
+
   const order_id = Math.random().toString(36).substring(2, 18);
   const total_price = orders.reduce(
     (total, order) => total + order.price * order.count,

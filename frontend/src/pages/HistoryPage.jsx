@@ -9,11 +9,6 @@ function HistoryPage() {
   const [orders, setOrders] = useState([]);
   const [isOpened, setIsOpened] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
-  const [countItems, setCountItems] = useState(0);
-
-  const style = {
-    cursor: "pointer",
-  };
 
   useEffect(() => {
     getOrder();
@@ -24,6 +19,7 @@ function HistoryPage() {
       const response = await axios.get("http://localhost:4000/order/history", {
         withCredentials: true,
       });
+      console.log(response);
 
       const reversedOrders = response?.data?.filteredOrdered.reverse();
       setOrders(reversedOrders || []);
@@ -68,7 +64,7 @@ function HistoryPage() {
                   <Detail title="Total: " info={`${item?.total} ฿`} />
                   <Detail
                     title="Date: "
-                    info={new Date(item.time).toLocaleDateString()}
+                    info={new Date(item.time).toLocaleDateString("en-GB")}
                   />
                   <b>
                     {item?.items.reduce((acc, item) => acc + item.amount, 0)}{" "}
