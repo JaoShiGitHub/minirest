@@ -10,11 +10,6 @@ function HistoryPage() {
   const [isOpened, setIsOpened] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [countItems, setCountItems] = useState(0);
-  // const [deletedOrders, setDeletedOrders] = useState(
-  //   JSON.parse(localStorage.getItem("deletedOrders")) || []
-  // );
-
-  // const navigate = useNavigate();
 
   const style = {
     cursor: "pointer",
@@ -24,30 +19,18 @@ function HistoryPage() {
     getOrder();
   }, []);
 
-  // useEffect(() => {
-  //   const storedDeletedOrders =
-  //     JSON.parse(localStorage.getItem("deletedOrders")) || [];
-  //   setDeletedOrders(storedDeletedOrders);
-  // }, []);
-
   const getOrder = async () => {
     try {
-      const orders = await axios.get("http://localhost:4000/order/history", {
+      const response = await axios.get("http://localhost:4000/order/history", {
         withCredentials: true,
       });
-      console.log(orders?.data?.filteredOrdered);
-      // console.log(orders?.data?.filteredOrdered);
-      setOrders(orders?.data?.filteredOrdered || []);
+
+      const reversedOrders = response?.data?.filteredOrdered.reverse();
+      setOrders(reversedOrders || []);
     } catch (err) {
       alert(err.response.data.msg);
     }
   };
-
-  // const handleOrderClick = (key, order) => {
-  //   navigate("/view-order", {
-  //     state: { order, key },
-  //   });
-  // };
 
   const Detail = (props) => {
     const { title, info } = props;
