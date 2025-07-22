@@ -19,7 +19,6 @@ function HistoryPage() {
       const response = await axios.get("http://localhost:4000/order/history", {
         withCredentials: true,
       });
-      console.log(response);
 
       const reversedOrders = response?.data?.filteredOrdered.reverse();
       setOrders(reversedOrders || []);
@@ -50,8 +49,11 @@ function HistoryPage() {
       >
         <NavBar />
 
-        <ul className="flex flex-wrap justify-evenly max-w-[1400px]">
+        <ul className="flex flex-wrap justify-evenly w-full max-w-[1400px]">
           <h1 className="font-bold text-3xl w-full my-20 px-10">History</h1>
+          {orders.length === 0 && (
+            <div className="text-lg">No order history found</div>
+          )}
           {orders.map((item) => {
             return (
               <li
