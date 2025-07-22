@@ -97,10 +97,14 @@ const customerAddOrder = async (req, res) => {
   const status = "Order Placed";
   const order_date = new Date().toISOString();
   const order_id = Math.random().toString(36).substring(2, 18);
+  const total_price = orders.reduce(
+    (total, order) => total + order.price * order.count,
+    0
+  );
 
   try {
     await pool.query(
-      `INSERT INTO customer_orders (order_id, customer_id, status, order_date, description, dining_status, payment_status) VALUES ($1, $2, $3, $4, $5, $6, $7 )`,
+      `INSERT INTO customer_orders (order_id, customer_id, status, time, description, dining_status, payment_status, total) VALUES ($1, $2, $3, $4, $5, $6, $7, $8 )`,
       [
         order_id,
         customer_id,
@@ -109,7 +113,12 @@ const customerAddOrder = async (req, res) => {
         note,
         diningStatus,
         payment_status,
+        total_price,
       ]
+    );
+
+    console.log(
+      `New order has been created for ${req.customer.username} with order_id: ${order_id}`
     );
 
     const orderQueries = orders.map((order) => {

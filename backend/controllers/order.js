@@ -9,17 +9,6 @@ const orderHistory = async (req, res) => {
       [customer_id]
     );
     const arrOrderId = data.rows.map((obj) => obj["order_id"]);
-    // console.log("check data: ", data.rows);
-    //   {
-    //   id: 53,
-    //   order_id: 'dobsr9cefff',
-    //   customer_id: 11,
-    //   status: 'Order Placed',
-    //   order_date: 2025-07-21T05:56:42.723Z,
-    //   description: '5% Sweet please. Thanks! 🧡 ',
-    //   dining_status: 'takeaway',
-    //   payment_status: 'Pending'
-    // },
 
     if (arrOrderId.length === 0) {
       return res.status(200).json({
@@ -27,15 +16,6 @@ const orderHistory = async (req, res) => {
         orderItems: [],
       });
     }
-
-    const idAndStatus = data.rows.map((obj) => ({
-      order_id: obj["order_id"],
-      status: obj["status"],
-      time: obj["order_date"],
-      description: obj["description"],
-      dining_status: obj["dining_status"],
-      payment_status: obj["payment_status"],
-    }));
 
     const placeholders = arrOrderId
       .map((_, index) => `$${index + 1}`)
@@ -55,7 +35,7 @@ const orderHistory = async (req, res) => {
       return acc;
     }, {});
 
-    const orderDetails = idAndStatus.map((order) => {
+    const orderDetails = data.rows.map((order) => {
       let newDetails = {};
 
       Object.entries(items).map(([key, value]) => {
