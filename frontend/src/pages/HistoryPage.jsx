@@ -82,19 +82,13 @@ function HistoryPage() {
                 <span className="font-bold text-2xl mb-1">{item.order_id}</span>
                 <div className="grid grid-cols-2 gap-x-9 gap-y-1 pl-7 ">
                   <Detail title="Status: " info={item.status} />
-                  <Detail
-                    title="Total: "
-                    info={`${item.items.reduce(
-                      (acc, curr) => acc + parseFloat(curr.product_price),
-                      0
-                    )}฿`}
-                  />
+                  <Detail title="Total: " info={`${item?.total} ฿`} />
                   <Detail
                     title="Date: "
                     info={new Date(item.time).toLocaleDateString()}
                   />
                   <b>
-                    {item.items.length}{" "}
+                    {item?.items.reduce((acc, item) => acc + item.amount, 0)}{" "}
                     {item.items.length > 1 ? "Items" : "Item"}
                   </b>
                   <Detail
