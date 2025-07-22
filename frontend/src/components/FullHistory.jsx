@@ -18,7 +18,11 @@ function FullHistory() {
     );
   };
 
-  const itemsCount = orderDetails?.items.reduce((acc, item) => acc);
+  const itemsCount = orderDetails?.items.reduce(
+    (acc, item) => acc + item?.amount,
+    0
+  );
+
   const orders = Object.fromEntries(Object.entries(orderDetails).reverse());
 
   return (
@@ -42,7 +46,9 @@ function FullHistory() {
             />
           </div>
           <hr className="my-8" />
-          <b className="text-lg">{orders.items.length} Items</b>
+          <b className="text-lg">
+            {itemsCount} {itemsCount > 1 ? "Items" : "Item"}
+          </b>
           <div className="flex flex-col gap-2 mt-4 mb-6">
             {orders?.items?.map((item) => (
               <div key={item?.id} className="flex justify-between px-10">
@@ -58,7 +64,7 @@ function FullHistory() {
             <strong>Total</strong>
             <span>
               {orders?.items.reduce(
-                (acc, item) => acc + Number(item?.product_price),
+                (acc, item) => acc + Number(item?.product_price) * item?.amount,
                 0
               )}
               .00 ฿
@@ -71,9 +77,6 @@ function FullHistory() {
             onClick={() => setIsOpened(false)}
           >
             Close
-          </button>
-          <button className=" bg-[#D90000] text-2xl shadow-xl min-w-[180px] py-3 rounded-full">
-            Delete
           </button>
         </section>
       </div>
