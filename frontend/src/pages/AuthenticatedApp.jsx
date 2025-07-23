@@ -5,7 +5,7 @@ import NotFoundPage from "./NotFoundPage";
 import PlaceOrderPage from "./PlaceOrderPage";
 
 import OrderReceivedPage from "./OrderReceivedPage";
-import ViewOrder from "./ViewOrder";
+// import ViewOrder from "./ViewOrder";
 import { HistoryPage } from "./HistoryPage";
 import ProfilePage from "./ProfilePage";
 import InsertMenu from "./InsertMenuPage";
@@ -19,7 +19,7 @@ function AuthenticatedApp() {
         <Route path="/order-now" element={<PlaceOrderPage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/order-received" element={<OrderReceivedPage />} />
-        <Route path="/view-order" element={<ViewOrder />} />
+        {/* <Route path="/view-order" element={<ViewOrder />} /> */}
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="/insert-menu" element={<InsertMenu />} />
