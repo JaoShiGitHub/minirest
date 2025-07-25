@@ -62,6 +62,18 @@ function ProfilePage() {
     }
   };
 
+  const handleOnclickDeleteAccount = async () => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:4000/customer/delete",
+        { withCredentials: true }
+      );
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
+  };
+
   const handleOnClickEditBtn = () => {
     setIsClicked(!isClicked);
   };
@@ -123,6 +135,9 @@ function ProfilePage() {
           )}
           {isClicked ? null : (
             <div className="self-end flex mt-10 gap-x-10">
+              <WhiteButton onClick={handleOnclickDeleteAccount}>
+                Delete Account
+              </WhiteButton>
               <WhiteButton onClick={handleOnClickLogout}>Logout</WhiteButton>
               <WhiteButton onClick={handleOnClickEditBtn}>
                 Edit Profile

@@ -45,7 +45,7 @@ const customerLogin = async (req, res) => {
     maxAge: 24 * 60 * 60 * 1000,
   });
 
-  return res.status(200).json({ message: "Login Successfully", token });
+  return res.status(200).json({ message: "Login Successfully" });
 };
 
 // Logout
