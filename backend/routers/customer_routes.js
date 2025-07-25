@@ -13,6 +13,7 @@ import {
   customerInfo,
   customerLogin,
   customerLogout,
+  customerDeleteAccount,
 } from "../controllers/customers.js";
 
 const customer = Router();
@@ -26,5 +27,7 @@ customer.post("/logout", authUser, customerLogout);
 customer.get("/info", authUser, customerInfo);
 // EDIT
 customer.put("/edit", authUser, customerEditInfo);
+// DELETE
+customer.delete("/delete", authUser, customerDeleteAccount);
 
 export default customer;

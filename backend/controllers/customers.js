@@ -198,6 +198,18 @@ const customerInfo = async (req, res) => {
   }
 };
 
+const customerDeleteAccount = async (req, res) => {
+  const customer_id = req.customer.id;
+  try {
+    await pool.query("DELETE FROM customers WHERE id = $1", [customer_id]);
+    return res.status(200).json({ message: "Account deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Failed to delete account: ${error.message}`,
+    });
+  }
+};
+
 export {
   customerRegister,
   customerAddOrder,
@@ -205,4 +217,5 @@ export {
   customerInfo,
   customerLogin,
   customerLogout,
+  customerDeleteAccount,
 };
