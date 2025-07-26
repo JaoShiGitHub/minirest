@@ -55,7 +55,7 @@ const customerLogout = (req, res) => {
     secure: true,
     sameSite: "Strict",
   });
-  res.json({ message: "Logged out" });
+  res.status(200).json({ message: "Logged out successfully" });
 };
 
 // Register
@@ -198,10 +198,19 @@ const customerInfo = async (req, res) => {
   }
 };
 
+// Delete Customer Account
 const customerDeleteAccount = async (req, res) => {
   const customer_id = req.customer.id;
+
   try {
     await pool.query("DELETE FROM customers WHERE id = $1", [customer_id]);
+
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
+
     return res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {
     return res.status(500).json({

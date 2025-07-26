@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { ProfileCard } from "../components/Cards";
 import { EditProfile } from "../components/Forms";
@@ -10,6 +10,7 @@ import { useAuth } from "../contexts/Authentication";
 const EditProfileContext = React.createContext();
 
 function ProfilePage() {
+  const navigate = useNavigate();
   const { logout } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
   const [userInfo, setUserInfo] = useState({
@@ -68,7 +69,8 @@ function ProfilePage() {
         "http://localhost:4000/customer/delete",
         { withCredentials: true }
       );
-      console.log(response.data.message);
+      console.log(response);
+      navigate("/login");
     } catch (error) {
       console.error("Error deleting account:", error);
     }

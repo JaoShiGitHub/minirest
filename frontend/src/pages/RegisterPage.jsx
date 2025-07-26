@@ -95,7 +95,7 @@ function RegisterPage() {
           name="password"
           placeholder="Password"
           value={password}
-          type="text"
+          type="password"
           handleOnChange={(e) => {
             setPassword(e.target.value);
           }}
