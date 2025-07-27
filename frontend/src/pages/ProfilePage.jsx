@@ -21,6 +21,7 @@ function ProfilePage() {
     tel: "",
     email: "",
     allergy: "",
+    location: "",
   });
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function ProfilePage() {
         Object.entries(user).forEach(([dataKey, dataValue]) => {
           Object.keys(prev).forEach((key) => {
             if (dataKey.toLowerCase() === key.toLowerCase()) {
-              updated[key] = dataValue;
+              updated[key] = dataValue || "";
             }
           });
         });
@@ -79,6 +80,7 @@ function ProfilePage() {
   const handleOnClickEditBtn = () => {
     setIsClicked(!isClicked);
   };
+  console.log(userInfo);
 
   return (
     <EditProfileContext.Provider value={{ isClicked, setIsClicked }}>
@@ -93,7 +95,7 @@ function ProfilePage() {
               current_birthday={userInfo?.birthday}
               current_email={userInfo?.email}
               current_allergy={userInfo?.allergy}
-              current_location=""
+              current_location={userInfo?.location}
               current_tel={userInfo?.tel}
             />
           ) : (

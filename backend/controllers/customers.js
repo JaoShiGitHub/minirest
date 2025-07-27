@@ -153,12 +153,20 @@ const customerAddOrder = async (req, res) => {
 
 // Edit Customer Info
 const customerEditInfo = async (req, res) => {
-  const { username, firstName, lastName, tel, email, allergy, birthday } =
-    req.body;
+  const {
+    username,
+    firstName,
+    lastName,
+    tel,
+    email,
+    allergy,
+    birthday,
+    location,
+  } = req.body;
   const customer_id = req.customer.id;
   try {
     await pool.query(
-      `UPDATE customers SET username = $1, firstname = $2, lastname = $3, tel= $4, email = $5, allergy = $6, birthday = $7 WHERE id = $8`,
+      `UPDATE customers SET username = $1, firstname = $2, lastname = $3, tel= $4, email = $5, allergy = $6, birthday = $7, location = $8 WHERE id = $9`,
       [
         username,
         firstName,
@@ -167,6 +175,7 @@ const customerEditInfo = async (req, res) => {
         email,
         allergy,
         birthday,
+        location,
         customer_id,
       ]
     );
