@@ -7,14 +7,13 @@ const AuthContext = React.createContext();
 function AuthProvider(props) {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
 
   // const checkAuth = async () => {
   //   try {
-  //     const data = await axios.get(`http://localhost:4000/customer/info`, {
+  //     const data = await axios(`http://localhost:4000/customer/info`, {
   //       withCredentials: true,
   //     });
-  //     setUser(data?.data?.user_data);
+  //     console.log(data);
   //     setIsAuthenticated(true);
   //   } catch {
   //     setIsAuthenticated(false);
@@ -33,12 +32,11 @@ function AuthProvider(props) {
         data,
         { withCredentials: true }
       );
-      setUser(response);
       setIsAuthenticated(true);
-      console.log("Login successful: ", response.data);
+      console.log("Login successful: ", response);
       navigate("/home");
     } catch (error) {
-      console.log("Login error: ", error);
+      console.log("Login error: ", error.message);
     }
   };
 
@@ -58,9 +56,7 @@ function AuthProvider(props) {
   };
 
   return (
-    <AuthContext.Provider
-      value={{ user, setUser, isAuthenticated, login, logout }}
-    >
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {props.children}
     </AuthContext.Provider>
   );

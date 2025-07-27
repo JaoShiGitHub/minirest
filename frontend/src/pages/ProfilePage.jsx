@@ -29,7 +29,7 @@ function ProfilePage() {
 
   const getInfo = async () => {
     try {
-      const data = await axios("http://localhost:4000/customer/info", {
+      const data = await axios.get("http://localhost:4000/customer/info", {
         withCredentials: true,
       });
 
@@ -119,17 +119,17 @@ function ProfilePage() {
                     <b>Location:</b>
                   </div>
                   <div className="flex flex-col gap-y-5">
-                    <p className="mb-4">{userInfo?.allergy || "Null"}</p>
-                    <p>{userInfo?.firstName || "Katherien"}</p>
-                    <p>{userInfo?.lastName || "Bello"}</p>
+                    <p className="mb-4">{userInfo?.allergy || null}</p>
+                    <p>{userInfo?.firstName || null}</p>
+                    <p>{userInfo?.lastName || null}</p>
                     <p>
                       {userInfo?.birthday
                         ? new Date(userInfo.birthday).toLocaleDateString()
                         : "10 Nov. 2001"}
                     </p>
-                    <p>{userInfo?.tel || "0984876577"}</p>
-                    <p>{userInfo?.email || "katherien@example.com"}</p>
-                    <p>{userInfo?.location || "Null"}</p>
+                    <p>{userInfo?.tel || null}</p>
+                    <p>{userInfo?.email || null}</p>
+                    <p>{userInfo?.location || null}</p>
                   </div>
                 </div>
               </section>

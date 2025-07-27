@@ -15,10 +15,7 @@ const authUser = (req, res, next) => {
     if (!decoded_token)
       return res.status(401).json({ message: "Invalid Token" });
 
-    if (decoded_token) {
-      req.customer = decoded_token; // manually adds a new property called "customer" to the req object
-    }
-
+    req.customer = decoded_token; // manually adds a new property called "customer" to the req object
     next();
   } catch (error) {
     return res.json({

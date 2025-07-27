@@ -15,11 +15,8 @@ const customerLogin = async (req, res) => {
   );
 
   const customer = data.rows[0];
-  console.log("Data: ", data.rows);
-  console.log("Customer data: ", data.rows);
-  console.log(customer);
 
-  if (!customer) {
+  if (customer.length === 0) {
     return res.status(404).json({ message: `${type} not found` });
   }
 

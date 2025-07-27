@@ -23,7 +23,7 @@ function HistoryPage() {
       const reversedOrders = response?.data?.filteredOrdered.reverse();
       setOrders(reversedOrders || []);
     } catch (err) {
-      alert(err.response.data.msg);
+      console.log(err);
     }
   };
 
