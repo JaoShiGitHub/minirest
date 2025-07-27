@@ -15,8 +15,11 @@ const customerLogin = async (req, res) => {
   );
 
   const customer = data.rows[0];
+  console.log("Data: ", data.rows);
+  console.log("Customer data: ", data.rows);
+  console.log(customer);
 
-  if (customer.length === 0) {
+  if (!customer) {
     return res.status(404).json({ message: `${type} not found` });
   }
 
@@ -55,7 +58,8 @@ const customerLogout = (req, res) => {
     secure: true,
     sameSite: "Strict",
   });
-  res.status(200).json({ message: "Logged out successfully" });
+
+  return res.status(200).json({ message: "Logged out successfully" });
 };
 
 // Register

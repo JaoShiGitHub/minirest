@@ -46,11 +46,12 @@ function AuthProvider(props) {
     try {
       const response = await axios.post(
         "http://localhost:4000/customer/logout",
+        {},
         { withCredentials: true }
       );
       setIsAuthenticated(false);
-      navigate("/not-found");
       console.log("Logout successful: ", response.data);
+      navigate("/login");
     } catch (error) {
       console.log("Logout error: ", error);
     }
