@@ -81,9 +81,7 @@ const customerRegister = async (req, res) => {
         birthday,
       ]
     );
-    return res
-      .status(200)
-      .json({ message: "Welcome to the Mini Rest in Thailand ka." });
+    return res.status(201).json({ message: "New customer has been created" });
   } catch (error) {
     return res.json({ message: `Error inserting user: ${error}` });
   }

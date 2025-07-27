@@ -1,6 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 const FormLabel = (props) => {
   const { name, value, type, handleOnChange, placeholder } = props;
   return (
@@ -13,6 +13,7 @@ const FormLabel = (props) => {
         type={type}
         placeholder={placeholder}
         // placeholder={name.charAt(0).toUpperCase() + name.slice(1)}
+        required
         onChange={handleOnChange}
       />
     </label>
@@ -30,13 +31,40 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleSubmitRegisterForm = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/customer/register",
+        {
+          username,
+          firstName,
+          lastName,
+          birthday,
+          allergy,
+          tel,
+          email,
+          password,
+        }
+      );
+      console.log("Register successfully", response.data.message);
+    } catch (error) {
+      console.error("Registration failed~~~:", error);
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col justify-center items-center gap-y-10 font-lato pb-20">
       <h1 className="text-black uppercase text-[86px] font-playfairDisplay">
         MINIREST
       </h1>
       <p className="text-3xl font-bold">Let's be our member!</p>
-      <form className="flex flex-wrap flex-col h-[280px] gap-y-6 gap-x-10">
+      <form
+        id="register-form"
+        className="flex flex-wrap flex-col h-[280px] gap-y-6 gap-x-10"
+        onSubmit={handleSubmitRegisterForm}
+      >
         <FormLabel
           name="username"
           placeholder="Username"
@@ -112,6 +140,7 @@ function RegisterPage() {
       </form>
       <button
         type="submit"
+        form="register-form"
         className="bg-slate-900 hover:bg-zinc-400 text-white w-full h-10 rounded-[3px] border-[0.5px] max-w-[380px] mt-5"
       >
         Register
