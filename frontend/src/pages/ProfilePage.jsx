@@ -13,6 +13,7 @@ function ProfilePage() {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
+  const [userImage, setUserImage] = useState(null);
   const [userInfo, setUserInfo] = useState({
     username: "",
     firstName: "",
@@ -35,7 +36,7 @@ function ProfilePage() {
       });
 
       const user = data?.data?.user_data;
-      console.log(user);
+      console.log("user: ", user);
 
       setUserInfo((prev) => {
         const updated = { ...prev };
@@ -50,8 +51,17 @@ function ProfilePage() {
 
         return updated;
       });
+
+      if (user?.photo?.data) {
+        const binary = user.photo.data;
+        const base64String = btoa(
+          binary.reduce((data, byte) => data + String.fromCharCode(byte), "")
+        );
+        const imageSrc = `data:image/jpeg;base64,${base64String}`;
+        setUserImage(imageSrc);
+      }
     } catch (error) {
-      console.log(error);
+      console.log("Error: ", error);
     }
   };
 
@@ -80,7 +90,7 @@ function ProfilePage() {
   const handleOnClickEditBtn = () => {
     setIsClicked(!isClicked);
   };
-  console.log(userInfo);
+  // console.log(userInfo);
 
   return (
     <EditProfileContext.Provider value={{ isClicked, setIsClicked }}>
@@ -97,13 +107,14 @@ function ProfilePage() {
               current_allergy={userInfo?.allergy}
               current_location={userInfo?.location}
               current_tel={userInfo?.tel}
+              current_image={userImage}
             />
           ) : (
             <ProfileCard>
               <section className="flex flex-col items-center">
                 <img
-                  className="min-w-[620px] min-h-[620px] rounded-l-2xl"
-                  src="images/user.png"
+                  className="min-w-[620px] max-h-[620px] rounded-l-2xl"
+                  src={userImage}
                 />
               </section>
               <section className="flex flex-col justify-center w-full px-28">
