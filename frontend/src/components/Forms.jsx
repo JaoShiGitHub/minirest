@@ -58,7 +58,6 @@ function EditProfile(props) {
     } catch (error) {
       console.log(error);
     }
-
     // console.log("Submit", userInfo);
   };
 
@@ -166,7 +165,7 @@ function EditProfile(props) {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
-              />{" "}
+              />
               Change Image
             </label>
           </div>

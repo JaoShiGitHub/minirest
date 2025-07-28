@@ -162,11 +162,13 @@ const customerEditInfo = async (req, res) => {
     allergy,
     birthday,
     location,
+    image,
   } = req.body;
   const customer_id = req.customer.id;
+  const imageBuffer = Buffer.from(image.split(",")[1], "base64");
   try {
     await pool.query(
-      `UPDATE customers SET username = $1, firstname = $2, lastname = $3, tel= $4, email = $5, allergy = $6, birthday = $7, location = $8 WHERE id = $9`,
+      `UPDATE customers SET username = $1, firstname = $2, lastname = $3, tel= $4, email = $5, allergy = $6, birthday = $7, location = $8, photo = $9 WHERE id = $10`,
       [
         username,
         firstName,
@@ -176,6 +178,7 @@ const customerEditInfo = async (req, res) => {
         allergy,
         birthday,
         location,
+        imageBuffer,
         customer_id,
       ]
     );

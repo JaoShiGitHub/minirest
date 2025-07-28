@@ -8,8 +8,6 @@ function FullHistory() {
   const { isOpened, setIsOpened, orderDetails, setOrderDetails } =
     useContext(HistoryDataContext);
 
-  console.log("orderDetails: ", orderDetails);
-
   const Details = (props) => {
     const { title, detail } = props;
 
@@ -45,7 +43,6 @@ function FullHistory() {
         { withCredentials: true }
       );
       setIsOrderDeleted(true);
-      console.log("response: ", response);
     } catch (error) {
       console.log(error);
     }
