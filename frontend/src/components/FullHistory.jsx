@@ -42,7 +42,7 @@ function FullHistory() {
     try {
       const response = await axios.delete(
         `http://localhost:4000/order/delete?order_id=${order_id}`,
-        { withCredential: true }
+        { withCredentials: true }
       );
       setIsOrderDeleted(true);
       console.log("response: ", response);

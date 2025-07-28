@@ -64,4 +64,22 @@ const orderHistory = async (req, res) => {
   }
 };
 
-export { orderHistory };
+const deleteOrderHistory = async (req, res) => {
+  const order_id = req.query.order_id;
+
+  if (!order_id) {
+    return res.status(400).json({ message: "Missing order_id in query" });
+  }
+
+  try {
+    await pool.query("DELETE FROM customer_orders WHERE order_id = $1", [
+      order_id,
+    ]);
+
+    return res.status(200).json({ message: "Order deleted successfully" });
+  } catch (error) {
+    res.jason({ message: error.message });
+  }
+};
+
+export { orderHistory, deleteOrderHistory };
