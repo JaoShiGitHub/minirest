@@ -40,12 +40,12 @@ function FullHistory() {
 
   const handleDeleteOrderHistory = async (order_id) => {
     try {
-      await axios.delete(
-        "http://localhost:4000/order/delete",
-        { order_id },
+      const response = await axios.delete(
+        `http://localhost:4000/order/delete?order_id=${order_id}`,
         { withCredential: true }
       );
       setIsOrderDeleted(true);
+      console.log("response: ", response);
     } catch (error) {
       console.log(error);
     }
