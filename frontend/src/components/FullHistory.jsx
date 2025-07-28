@@ -32,7 +32,7 @@ function FullHistory() {
     if (orderDetails) {
       const btnStatus =
         orderDetails?.payment_status?.toLowerCase() === "paid" &&
-        orderDetails?.status?.toLowerCase() === "complete";
+        orderDetails?.status?.toLowerCase() === "completed";
 
       setBtnDelete(btnStatus);
     }
