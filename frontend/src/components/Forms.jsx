@@ -14,6 +14,7 @@ function EditProfile(props) {
     current_allergy,
     current_location,
     current_tel,
+    current_image,
   } = props;
 
   const [username, setUsername] = useState(current_username);
@@ -24,6 +25,7 @@ function EditProfile(props) {
   const [allergy, setAllergy] = useState(current_allergy);
   const [location, setLocation] = useState(current_location);
   const [tel, setTel] = useState(current_tel);
+  const [image, setImage] = useState(current_image);
   //   other states
   const [previewImage, setPreviewImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
@@ -65,7 +67,7 @@ function EditProfile(props) {
     const file = e.target.files[0];
     if (file) {
       const imageURL = URL.createObjectURL(file);
-      setPreviewImage(imageURL);
+      setImage(imageURL);
 
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -84,7 +86,7 @@ function EditProfile(props) {
       {editProfileMessage ? <p>{editProfileMessage}</p> : null}
       <ProfileCard>
         <img
-          src={previewImage}
+          src={image}
           alt={current_username}
           className="min-w-[500px] max-h-[500px] rounded-2xl ml-20 shadow-lg"
         />
