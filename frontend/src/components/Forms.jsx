@@ -27,7 +27,6 @@ function EditProfile(props) {
   const [tel, setTel] = useState(current_tel);
   const [image, setImage] = useState(current_image);
   //   other states
-  const [previewImage, setPreviewImage] = useState(null);
   const [newImage, setNewImage] = useState(null);
   const [editProfileMessage, setEditProfileMessage] = useState("");
 
@@ -67,7 +66,7 @@ function EditProfile(props) {
     const file = e.target.files[0];
     if (file) {
       const imageURL = URL.createObjectURL(file);
-      setPreviewImage(imageURL);
+      setImage(imageURL);
 
       const reader = new FileReader();
       reader.onloadend = () => {
