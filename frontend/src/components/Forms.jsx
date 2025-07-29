@@ -67,7 +67,7 @@ function EditProfile(props) {
     const file = e.target.files[0];
     if (file) {
       const imageURL = URL.createObjectURL(file);
-      setImage(imageURL);
+      setPreviewImage(imageURL);
 
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -86,7 +86,7 @@ function EditProfile(props) {
       {editProfileMessage ? <p>{editProfileMessage}</p> : null}
       <ProfileCard>
         <img
-          src={image}
+          src={image || "images/profile_img.png"}
           alt={current_username}
           className="min-w-[500px] max-h-[500px] rounded-2xl ml-20 shadow-lg"
         />
