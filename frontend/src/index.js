@@ -8,11 +8,11 @@ import jwtInterceptor from "./utils/jwtInterceptor.js";
 jwtInterceptor();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <AuthProvider>
+  <AuthProvider>
+    <BrowserRouter>
       <App />
-    </AuthProvider>
-  </BrowserRouter>
+    </BrowserRouter>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
