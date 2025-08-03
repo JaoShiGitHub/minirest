@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
-  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // const checkAuth = async () => {
-  //   try {
-  //     const data = await axios(`http://localhost:4000/customer/info`, {
-  //       withCredentials: true,
-  //     });
-  //     console.log(data);
-  //     setIsAuthenticated(true);
-  //   } catch {
-  //     setIsAuthenticated(false);
-  //   }
-  // };
+  useEffect(() => {
+    const checkAuth = async () => {
+      setLoading(true);
 
-  // useEffect(() => {
-  //   checkAuth();
-  // }, []);
+      try {
+        console.log("start");
+        const response = await axios.get("http://localhost:4000/checkme", {
+          withCredentials: true,
+        });
+        setIsAuthenticated(response?.data?.success);
+        setLoading(false);
+        console.log("Passed");
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    checkAuth();
+  }, []);
 
   const login = async (data) => {
     try {
-      setIsAuthenticated(false);
       const response = await axios.post(
         "http://localhost:4000/customer/login",
         data,
         { withCredentials: true }
       );
-      setIsAuthenticated(true);
+      setIsAuthenticated(response?.data?.success);
       console.log("Login successful: ", response);
-      navigate("/home");
     } catch (error) {
       console.log("Login error: ", error.message);
     }
@@ -47,16 +47,18 @@ function AuthProvider(props) {
         {},
         { withCredentials: true }
       );
-      setIsAuthenticated(false);
+      setIsAuthenticated(response?.data?.success);
       console.log("Logout successful: ", response.data);
-      navigate("/login");
+      // navigate("/login");
     } catch (error) {
       console.log("Logout error: ", error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, loading, setLoading }}
+    >
       {props.children}
     </AuthContext.Provider>
   );
