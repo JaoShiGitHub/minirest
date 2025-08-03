@@ -90,7 +90,6 @@ function ProfilePage() {
   const handleOnClickEditBtn = () => {
     setIsClicked(!isClicked);
   };
-  // console.log(userInfo);
 
   return (
     <EditProfileContext.Provider value={{ isClicked, setIsClicked }}>
@@ -114,7 +113,7 @@ function ProfilePage() {
               <section className="flex flex-col items-center">
                 <img
                   className="min-w-[620px] max-h-[620px] rounded-l-2xl"
-                  src={userImage}
+                  src={userImage || "images/profile_img.png"}
                 />
               </section>
               <section className="flex flex-col justify-center w-full px-28">
