@@ -1,13 +1,13 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import HomePage from "./HomePage";
-import MenuPage from "./MenuPage";
-import NotFoundPage from "./NotFoundPage";
-import OrderReceivedPage from "./OrderReceivedPage";
-import { HistoryPage } from "./HistoryPage";
-import ProfilePage from "./ProfilePage";
-import ProtectedRoute from "./ProtectedRoute";
-import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
+import HomePage from "./customer/HomePage";
+import MenuPage from "./customer/MenuPage";
+import NotFoundPage from "./customer/NotFoundPage";
+import OrderReceivedPage from "./customer/OrderReceivedPage";
+import { HistoryPage } from "./customer/HistoryPage";
+import ProfilePage from "./customer/ProfilePage";
+import ProtectedRoute from "./customer/ProtectedRoute";
+import LoginPage from "./customer/LoginPage";
+import RegisterPage from "./customer/RegisterPage";
 
 function AuthenticatedApp() {
   return (

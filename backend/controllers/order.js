@@ -25,7 +25,6 @@ const orderHistory = async (req, res) => {
       `SELECT * FROM order_items WHERE order_id IN (${placeholders})`,
       arrOrderId
     );
-    console.log("check items: ", orderItems.rows);
 
     // I use this code because I want to group the items that have the same order_id together
     // Otherwise they'll come separately
