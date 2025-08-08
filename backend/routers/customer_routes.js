@@ -31,7 +31,7 @@ customer.post("/order", authUser, customerAddOrder);
 customer.post("/logout", customerLogout); // Note: Logout doesn't need authUser
 // GET
 customer.get("/info", authUser, customerInfo);
-customer.get("status", authUser, checkLogin);
+customer.get("/status", authUser, checkLogin);
 // EDIT
 customer.put("/edit", authUser, customerEditInfo);
 // DELETE

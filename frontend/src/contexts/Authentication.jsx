@@ -13,9 +13,14 @@ function AuthProvider(props) {
 
       try {
         console.log("start");
-        const response = await axios.get("http://localhost:4000/checkme", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://localhost:4000/customer/status",
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(response);
+
         setIsAuthenticated(response?.data?.success);
         setLoading(false);
         console.log("Passed");

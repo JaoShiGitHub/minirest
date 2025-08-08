@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
 import FullHistory from "../components/FullHistory";
+import NavBar from "../components/NavBar";
 
 export const HistoryDataContext = React.createContext();
 
@@ -49,8 +49,8 @@ function HistoryPage() {
       >
         <NavBar />
 
-        <ul className="flex flex-wrap justify-evenly w-full max-w-[1400px]">
-          <h1 className="font-bold text-3xl w-full my-20 px-10">History</h1>
+        <ul className="flex flex-wrap gap-x-10 w-full pl-36">
+          <h1 className="font-bold text-3xl w-full my-20 ">History</h1>
           {orders.length === 0 && (
             <div className="text-lg">No order history found</div>
           )}
