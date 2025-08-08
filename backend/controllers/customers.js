@@ -16,7 +16,7 @@ const customerLogin = async (req, res) => {
 
     const customer = data.rows[0];
 
-    if (customer.length === 0) {
+    if (!customer) {
       return res.status(404).json({ message: `${type} not found` });
     }
 
@@ -91,9 +91,14 @@ const customerRegister = async (req, res) => {
         birthday,
       ]
     );
-    return res.status(201).json({ message: "New customer has been created" });
+    return res
+      .status(201)
+      .json({ success: true, message: "New customer has been created" });
   } catch (error) {
-    return res.json({ message: `Error inserting user: ${error}` });
+    return res.status(500).json({
+      success: false,
+      message: `Error inserting user: ${error.message}`,
+    });
   }
 };
 
@@ -150,13 +155,12 @@ const customerAddOrder = async (req, res) => {
     });
 
     await Promise.all(orderQueries);
-    console.log(
-      `${req.customer.username}, the order has been created successfully! :)`
-    );
 
-    return res.status(200).json({ message: "Order has been created" });
+    return res.status(201).json({ message: "Order has been created" });
   } catch (error) {
-    return res.json({ message: `Failed to add new order: ${error.message}` });
+    return res
+      .status(500)
+      .json({ message: `Failed to add new order: ${error.message}` });
   }
 };
 
@@ -191,9 +195,9 @@ const customerEditInfo = async (req, res) => {
         customer_id,
       ]
     );
-    return res.json({ message: "Customer info has been updated" });
+    return res.status(200).json({ message: "Customer info has been updated" });
   } catch (error) {
-    return res.json({
+    return res.status(500).json({
       message: `Failed to edit customer info: ${error.message}`,
     });
   }
@@ -207,12 +211,17 @@ const customerInfo = async (req, res) => {
       customer_id,
     ]);
 
+    if (!info.rows[0]) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     return res.status(200).json({
+      success: true,
       message: "Customer info fetched successfully",
-      user_data: info?.rows[0],
+      user_data: info.rows[0],
     });
   } catch (error) {
-    return res.json({
+    return res.status(500).json({
       message: `Failed to get customer info: ${error.message}`,
     });
   }
@@ -231,7 +240,7 @@ const customerDeleteAccount = async (req, res) => {
       sameSite: "Strict",
     });
 
-    return res.status(200).json({ message: "Account deleted successfully" });
+    return res.status(204);
   } catch (error) {
     return res.status(500).json({
       message: `Failed to delete account: ${error.message}`,
