@@ -12,19 +12,14 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Clear the error message on each new attempt
-
+    setErrorMessage("");
     try {
       await login({
         identifier,
         password,
       });
-      console.log("Login successful! Redirecting to /home...");
       navigate("/home");
     } catch (error) {
-      // Log the full error to the console for debugging
-      console.error("Login failed:", error);
-      // Set a user-friendly error message
       if (
         error.response &&
         error.response.data &&

@@ -68,6 +68,7 @@ function ProfilePage() {
   const handleOnClickLogout = async () => {
     try {
       await logout();
+      navigate("/login");
       console.log("Logout successful");
     } catch (error) {
       console.error("Logout failed:", error);

@@ -6,26 +6,22 @@ const AuthContext = React.createContext();
 function AuthProvider(props) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
       setLoading(true);
-
       try {
-        console.log("start");
         const response = await axios.get(
           "http://localhost:4000/customer/status",
           {
             withCredentials: true,
           }
         );
-        console.log(response);
-
         setIsAuthenticated(response?.data?.success);
         setLoading(false);
-        console.log("Passed");
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.log(error);
       }
     };
     checkAuth();
@@ -33,15 +29,18 @@ function AuthProvider(props) {
 
   const login = async (data) => {
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:4000/customer/login",
         data,
         { withCredentials: true }
       );
       setIsAuthenticated(response?.data?.success);
-      console.log("Login successful: ", response);
+      setLoading(false);
     } catch (error) {
-      console.log("Login error: ", error.message);
+      if (error.message) {
+        setErrorMessage(`Login Error: ${error.message}`);
+      }
     }
   };
 
@@ -54,15 +53,23 @@ function AuthProvider(props) {
       );
       setIsAuthenticated(response?.data?.success);
       console.log("Logout successful: ", response.data);
-      // navigate("/login");
     } catch (error) {
-      console.log("Logout error: ", error);
+      if (error.message) {
+        setErrorMessage(`Logout Error: ${error.message}`);
+      }
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, login, logout, loading, setLoading }}
+      value={{
+        isAuthenticated,
+        login,
+        logout,
+        loading,
+        setLoading,
+        errorMessage,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
