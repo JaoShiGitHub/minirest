@@ -2,6 +2,7 @@ import { isEmail } from "../utils/common.js";
 import { pool } from "../utils/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+// Only unexpected errors reach here — return generic 500
 
 // Login
 const customerLogin = async (req, res) => {
@@ -62,7 +63,9 @@ const customerLogout = (req, res) => {
       sameSite: "Strict",
     });
 
-    return res.status(200).json({ message: "Logged out successfully" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -143,10 +146,6 @@ const customerAddOrder = async (req, res) => {
       ]
     );
 
-    console.log(
-      `New order has been created for ${req.customer.username} with order_id: ${order_id}`
-    );
-
     const orderQueries = orders.map((order) => {
       pool.query(
         `INSERT INTO order_items (order_id, product_id ,product_name, product_price, amount) VALUES ($1, $2, $3, $4, $5)`,
@@ -156,11 +155,14 @@ const customerAddOrder = async (req, res) => {
 
     await Promise.all(orderQueries);
 
-    return res.status(201).json({ message: "Order has been created" });
-  } catch (error) {
     return res
-      .status(500)
-      .json({ message: `Failed to add new order: ${error.message}` });
+      .status(201)
+      .json({ success: true, message: "Order has been created" });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: `Failed to add new order: ${error.message}`,
+    });
   }
 };
 
@@ -179,6 +181,7 @@ const customerEditInfo = async (req, res) => {
   } = req.body;
   const customer_id = req.customer.id;
   const imageBuffer = Buffer.from(image.split(",")[1], "base64");
+
   try {
     await pool.query(
       `UPDATE customers SET username = $1, firstname = $2, lastname = $3, tel= $4, email = $5, allergy = $6, birthday = $7, location = $8, photo = $9 WHERE id = $10`,
@@ -195,9 +198,12 @@ const customerEditInfo = async (req, res) => {
         customer_id,
       ]
     );
-    return res.status(200).json({ message: "Customer info has been updated" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Customer info has been updated" });
   } catch (error) {
     return res.status(500).json({
+      success: false,
       message: `Failed to edit customer info: ${error.message}`,
     });
   }
@@ -222,6 +228,7 @@ const customerInfo = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
+      success: false,
       message: `Failed to get customer info: ${error.message}`,
     });
   }
@@ -240,9 +247,10 @@ const customerDeleteAccount = async (req, res) => {
       sameSite: "Strict",
     });
 
-    return res.status(204);
+    return res.status(204).send();
   } catch (error) {
     return res.status(500).json({
+      success: false,
       message: `Failed to delete account: ${error.message}`,
     });
   }
