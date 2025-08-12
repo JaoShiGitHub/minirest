@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import ConfirmOrder from "../components/ConfirmOrder";
+import { useAuth } from "../contexts/Authentication";
+import LoadingPage from "./LoadingPage";
 
 const menuBarStyle =
   "bg-white px-6 py-2 rounded-full shadow-lg hover:bg-orange-300 transition-colors duration-300";
@@ -16,12 +18,17 @@ function MenuPage() {
   const [confirmOrderComponent, setConfirmOrderComponent] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
 
+  const { loading, setLoading } = useAuth();
+
   useEffect(() => {
     getMenu();
   }, []);
 
   const getMenu = async () => {
     try {
+      setLoading(true);
+      console.log(loading);
+
       const MENU = await axios.get("http://localhost:4000/menu", {
         withCredentials: true,
       });
@@ -34,7 +41,8 @@ function MenuPage() {
       }));
 
       setData(updatedMenu);
-      console.log(MENU?.data?.data);
+      setLoading(false);
+      console.log(loading);
     } catch (error) {
       console.error(error);
     }
@@ -103,50 +111,52 @@ function MenuPage() {
                 Order Now
               </button>
             )}
-            {/* <button className={menuBarStyle}> Filter Drink</button> */}
           </div>
         </section>
-
-        <ul className="w-full flex flex-wrap gap-5 gap-x-10 max-w-[1544px] h-full justify-center font-lato ">
-          {data.map((menu) => {
-            return (
-              <li
-                key={menu.menu_id}
-                className="flex justify-between text-2xl flex-col items-center"
-              >
-                <img
-                  className="w-full max-w-[300px] h-[360px] rounded-3xl"
-                  src={`data:image/jpeg;base64,${btoa(
-                    menu?.image?.data.reduce(
-                      (data, byte) => data + String.fromCharCode(byte),
-                      ""
-                    )
-                  )}`}
-                  alt={menu?.name}
-                />
-                {isSelectBtn && (
-                  <div className="flex gap-x-4 items-center mt-4 mb-1">
-                    <button
-                      className="bg-white shadow-xl rounded-full px-6 hover:bg-orange-300"
-                      onClick={() => handleOnClickRemoveItem(menu.menu_id)}
-                    >
-                      -
-                    </button>
-                    <span className="text-xl">{menu.count}</span>
-                    <button
-                      className="bg-white shadow-xl rounded-full px-6 hover:bg-orange-300"
-                      onClick={() => handleOnClickAddItem(menu.menu_id)}
-                    >
-                      +
-                    </button>
-                  </div>
-                )}
-                <p className="font-bold text-xl mt-2">{menu.name}</p>
-                <span className="text-base">{menu.price} ฿</span>
-              </li>
-            );
-          })}
-        </ul>
+        {loading ? (
+          <LoadingPage />
+        ) : (
+          <ul className="w-full flex flex-wrap gap-5 gap-x-10 max-w-[1544px] h-full justify-center font-lato ">
+            {data.map((menu) => {
+              return (
+                <li
+                  key={menu.menu_id}
+                  className="flex justify-between text-2xl flex-col items-center"
+                >
+                  <img
+                    className="w-full max-w-[300px] h-[360px] rounded-3xl"
+                    src={`data:image/jpeg;base64,${btoa(
+                      menu?.image?.data.reduce(
+                        (data, byte) => data + String.fromCharCode(byte),
+                        ""
+                      )
+                    )}`}
+                    alt={menu?.name}
+                  />
+                  {isSelectBtn && (
+                    <div className="flex gap-x-4 items-center mt-4 mb-1">
+                      <button
+                        className="bg-white shadow-xl rounded-full px-6 hover:bg-orange-300"
+                        onClick={() => handleOnClickRemoveItem(menu.menu_id)}
+                      >
+                        -
+                      </button>
+                      <span className="text-xl">{menu.count}</span>
+                      <button
+                        className="bg-white shadow-xl rounded-full px-6 hover:bg-orange-300"
+                        onClick={() => handleOnClickAddItem(menu.menu_id)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  )}
+                  <p className="font-bold text-xl mt-2">{menu.name}</p>
+                  <span className="text-base">{menu.price} ฿</span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
       {confirmOrderComponent && (
         <ConfirmOrder
