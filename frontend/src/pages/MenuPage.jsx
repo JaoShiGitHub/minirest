@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import ConfirmOrder from "../components/ConfirmOrder";
 import { useAuth } from "../contexts/Authentication";
-import LoadingPage from "./LoadingPage";
+import LoadingPage from "../components/Loading";
 
 const menuBarStyle =
   "bg-white px-6 py-2 rounded-full shadow-lg hover:bg-orange-300 transition-colors duration-300";
@@ -26,9 +26,8 @@ function MenuPage() {
 
   const getMenu = async () => {
     try {
-      setLoading(true);
       console.log(loading);
-
+      setLoading(true);
       const MENU = await axios.get("http://localhost:4000/menu", {
         withCredentials: true,
       });
@@ -42,7 +41,6 @@ function MenuPage() {
 
       setData(updatedMenu);
       setLoading(false);
-      console.log(loading);
     } catch (error) {
       console.error(error);
     }

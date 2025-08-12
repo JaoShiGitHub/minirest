@@ -29,14 +29,12 @@ function AuthProvider(props) {
 
   const login = async (data) => {
     try {
-      setLoading(true);
       const response = await axios.post(
         "http://localhost:4000/customer/login",
         data,
         { withCredentials: true }
       );
       setIsAuthenticated(response?.data?.success);
-      setLoading(false);
     } catch (error) {
       if (error.message) {
         setErrorMessage(`Login Error: ${error.message}`);
@@ -59,7 +57,6 @@ function AuthProvider(props) {
       }
     }
   };
-
   return (
     <AuthContext.Provider
       value={{
