@@ -6,12 +6,13 @@ import { ProfileCard } from "../components/Cards";
 import { EditProfile } from "../components/Forms";
 import { WhiteButton } from "../components/Buttons";
 import { useAuth } from "../contexts/Authentication";
+import Loading from "../components/Loading";
 
 const EditProfileContext = React.createContext();
 
 function ProfilePage() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, loading, setLoading } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
   const [userImage, setUserImage] = useState(null);
   const [userInfo, setUserInfo] = useState({
@@ -31,6 +32,7 @@ function ProfilePage() {
 
   const getInfo = async () => {
     try {
+      setLoading(true);
       const data = await axios.get("http://localhost:4000/customer/info", {
         withCredentials: true,
       });
@@ -60,6 +62,7 @@ function ProfilePage() {
         const imageSrc = `data:image/jpeg;base64,${base64String}`;
         setUserImage(imageSrc);
       }
+      setLoading(false);
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -96,70 +99,76 @@ function ProfilePage() {
     <EditProfileContext.Provider value={{ isClicked, setIsClicked }}>
       <main className="w-full min-h-screen flex flex-col items-center pb-40">
         <NavBar />
-        <section className="flex flex-col w-full items-center max-w-[1400px]">
-          {isClicked ? (
-            <EditProfile
-              current_username={userInfo?.username}
-              current_firstName={userInfo?.firstName}
-              current_lastName={userInfo?.lastName}
-              current_birthday={userInfo?.birthday}
-              current_email={userInfo?.email}
-              current_allergy={userInfo?.allergy}
-              current_location={userInfo?.location}
-              current_tel={userInfo?.tel}
-              current_image={userImage}
-            />
-          ) : (
-            <ProfileCard>
-              <section className="flex flex-col items-center">
-                <img
-                  className="min-w-[620px] max-h-[620px] rounded-l-2xl"
-                  src={userImage || "images/profile_img.png"}
-                />
-              </section>
-              <section className="flex flex-col justify-center w-full px-28">
-                <h1 className="font-bold text-5xl mb-14">
-                  {userInfo?.username}
-                </h1>
-                <div className="flex text-xl gap-x-10">
-                  <div className="flex flex-col gap-y-5 min-w-[120px]">
-                    <b className="mb-4">Allergy:</b>
-                    <b>First Name:</b>
-                    <b>Last Name:</b>
-                    <b>Birthday:</b>
-                    <b>Tel:</b>
-                    <b>Email:</b>
-                    <b>Location:</b>
+        {loading ? (
+          <div className="w-full flex justify-center mt-48">
+            <Loading />
+          </div>
+        ) : (
+          <section className="flex flex-col w-full items-center max-w-[1400px]">
+            {isClicked ? (
+              <EditProfile
+                current_username={userInfo?.username}
+                current_firstName={userInfo?.firstName}
+                current_lastName={userInfo?.lastName}
+                current_birthday={userInfo?.birthday}
+                current_email={userInfo?.email}
+                current_allergy={userInfo?.allergy}
+                current_location={userInfo?.location}
+                current_tel={userInfo?.tel}
+                current_image={userImage}
+              />
+            ) : (
+              <ProfileCard>
+                <section className="flex flex-col items-center">
+                  <img
+                    className="min-w-[620px] max-h-[620px] rounded-l-2xl"
+                    src={userImage || "images/profile_img.png"}
+                  />
+                </section>
+                <section className="flex flex-col justify-center w-full px-28">
+                  <h1 className="font-bold text-5xl mb-14">
+                    {userInfo?.username}
+                  </h1>
+                  <div className="flex text-xl gap-x-10">
+                    <div className="flex flex-col gap-y-5 min-w-[120px]">
+                      <b className="mb-4">Allergy:</b>
+                      <b>First Name:</b>
+                      <b>Last Name:</b>
+                      <b>Birthday:</b>
+                      <b>Tel:</b>
+                      <b>Email:</b>
+                      <b>Location:</b>
+                    </div>
+                    <div className="flex flex-col gap-y-5">
+                      <p className="mb-4">{userInfo?.allergy || null}</p>
+                      <p>{userInfo?.firstName || null}</p>
+                      <p>{userInfo?.lastName || null}</p>
+                      <p>
+                        {userInfo?.birthday
+                          ? new Date(userInfo.birthday).toLocaleDateString()
+                          : "10 Nov. 2001"}
+                      </p>
+                      <p>{userInfo?.tel || null}</p>
+                      <p>{userInfo?.email || null}</p>
+                      <p>{userInfo?.location || null}</p>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-y-5">
-                    <p className="mb-4">{userInfo?.allergy || null}</p>
-                    <p>{userInfo?.firstName || null}</p>
-                    <p>{userInfo?.lastName || null}</p>
-                    <p>
-                      {userInfo?.birthday
-                        ? new Date(userInfo.birthday).toLocaleDateString()
-                        : "10 Nov. 2001"}
-                    </p>
-                    <p>{userInfo?.tel || null}</p>
-                    <p>{userInfo?.email || null}</p>
-                    <p>{userInfo?.location || null}</p>
-                  </div>
-                </div>
-              </section>
-            </ProfileCard>
-          )}
-          {isClicked ? null : (
-            <div className="self-end flex mt-10 gap-x-10">
-              <WhiteButton onClick={handleOnclickDeleteAccount}>
-                Delete Account
-              </WhiteButton>
-              <WhiteButton onClick={handleOnClickLogout}>Logout</WhiteButton>
-              <WhiteButton onClick={handleOnClickEditBtn}>
-                Edit Profile
-              </WhiteButton>
-            </div>
-          )}
-        </section>
+                </section>
+              </ProfileCard>
+            )}
+            {isClicked ? null : (
+              <div className="self-end flex mt-10 gap-x-10">
+                <WhiteButton onClick={handleOnclickDeleteAccount}>
+                  Delete Account
+                </WhiteButton>
+                <WhiteButton onClick={handleOnClickLogout}>Logout</WhiteButton>
+                <WhiteButton onClick={handleOnClickEditBtn}>
+                  Edit Profile
+                </WhiteButton>
+              </div>
+            )}
+          </section>
+        )}
       </main>
     </EditProfileContext.Provider>
   );
