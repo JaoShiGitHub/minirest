@@ -49,7 +49,7 @@ function HistoryPage() {
   };
 
   return (
-    <div className="h-full font-lato flex flex-col items-center">
+    <div className="h-full font-lato flex flex-col items-center pb-20">
       <HistoryDataContext.Provider
         value={{ isOpened, setIsOpened, orderDetails, setOrderDetails }}
       >

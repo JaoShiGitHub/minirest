@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { ProfileCard } from "../components/Cards";
-import { EditProfile } from "../components/Forms";
+import { EditProfile } from "../components/EditProfileForm";
 import { WhiteButton } from "../components/Buttons";
 import { useAuth } from "../contexts/Authentication";
 import Loading from "../components/Loading";
@@ -97,7 +97,7 @@ function ProfilePage() {
 
   return (
     <EditProfileContext.Provider value={{ isClicked, setIsClicked }}>
-      <main className="w-full min-h-screen flex flex-col items-center pb-40">
+      <main className="w-full min-h-screen flex flex-col items-center">
         <NavBar />
         {loading ? (
           <div className="w-full flex justify-center mt-48">
@@ -146,7 +146,7 @@ function ProfilePage() {
                       <p>
                         {userInfo?.birthday
                           ? new Date(userInfo.birthday).toLocaleDateString()
-                          : "10 Nov. 2001"}
+                          : null}
                       </p>
                       <p>{userInfo?.tel || null}</p>
                       <p>{userInfo?.email || null}</p>
