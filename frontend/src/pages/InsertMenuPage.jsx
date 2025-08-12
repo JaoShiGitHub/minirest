@@ -1,4 +1,4 @@
-import { FormLabel } from "../components/Forms";
+import { FormLabel } from "../components/EditProfileForm";
 import NavBar from "../components/NavBar";
 import { useState } from "react";
 import axios from "axios";

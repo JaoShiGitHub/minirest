@@ -87,7 +87,7 @@ function MenuPage() {
   return (
     <main>
       <NavBar />
-      <div className="flex justify-center flex-col items-center">
+      <div className="flex justify-center flex-col items-center pb-20">
         <section className="flex w-full justify-between items-center px-48">
           <h1 className="font-playfairDisplay font-bold text-3xl my-20">
             MENU
