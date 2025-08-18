@@ -1,2 +1,2 @@
 # MiniRest
-A full-stack web application for ordering food and drinks online.
+A full-stack web application designed for customers to browse a restaurant menu, place orders, and manage their profiles. The project focuses on providing a seamless user experience for customers to interact with the restaurant digitally.
