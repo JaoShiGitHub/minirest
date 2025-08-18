@@ -89,7 +89,7 @@ function RegisterPage() {
         </div>
       ) : (
         <div className=" flex flex-col justify-center items-center gap-y-10 font-lato ">
-          <p className="text-3xl font-bold">Let's be our member!</p>
+          <p className="text-3xl font-caveat mb-10">Let's be our member!</p>
           <form
             id="register-form"
             className="flex flex-wrap flex-col h-[280px] gap-y-6 gap-x-10"
