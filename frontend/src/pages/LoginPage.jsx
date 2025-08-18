@@ -41,7 +41,7 @@ function LoginPage() {
   return (
     <section className="flex flex-col items-center h-screen">
       <div className="flex flex-col items-center mt-24">
-        <h1 className="text-black  uppercase text-[86px] font-['playfairDisplay']">
+        <h1 className="text-black  uppercase text-[86px] font-playfairDisplay">
           Minirest
         </h1>
         <p className="font-['caveat'] text-2xl">
